@@ -1,11 +1,11 @@
 # Flight Price Summary ✈️
 
-_{This README is automatically updated. Last generated: 2025-05-18 23:10:35 IST}_
+_{This README is automatically updated. Last generated: 2025-05-18 23:17:45 IST}_
 
 This page shows the latest tracked flight prices for configured routes. Prices are for one adult, economy, one-way, in INR. All timestamps are in IST.
 
 ## ✈️ Flight Prices: DEL ➔ BLR
-_Last data update for this route: 2025-05-18 23:10:35 IST_
+_Last data update for this route: 2025-05-18 23:17:44 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -32,7 +32,7 @@ _Last data update for this route: 2025-05-18 23:10:35 IST_
 | 2025-06-06   | Fri | ₹3,944 | 5:00 PM → 7:15 PM | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:47:32 IST | 📊 (Typical) |
 | 2025-06-07   | Sat | ₹4,884 | 4:20 PM → 9:10 PM | IndiGo | 4 hr 50 min | 1 | 2025-05-18 14:47:38 IST | 📉 (Low) |
 | 2025-06-08   | Sun | ₹3,944 | 11:20 PM → 1:35 AM+1 | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:47:44 IST | 📊 (Typical) |
-| 2025-06-09   | Mon | ₹3,944 | 12:15 PM → 2:30 PM | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:47:51 IST | 📉 (Low) |
+| 2025-06-09   | Mon | ₹3,944 | 12:15 PM → 2:30 PM | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:47:51 IST | 📊 (Typical) |
 | 2025-06-10   | Tue | ₹3,944 | 5:00 PM → 7:15 PM | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:47:57 IST | 📉 (Low) |
 | 2025-06-11   | Wed | ₹3,944 | 12:15 PM → 2:30 PM | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:48:04 IST | 📉 (Low) |
 | 2025-06-12   | Thu | ₹3,944 | 6:30 PM → 8:45 PM | IndiGo | 2 hr 15 min | 0 | 2025-05-18 14:48:10 IST | 📉 (Low) |
@@ -115,7 +115,7 @@ _For each travel date, shows the cheapest *positive* price seen if an observatio
 
 ---
 ## ✈️ Flight Prices: DEL ➔ HYD
-_Last data update for this route: 2025-05-18 23:08:38 IST_
+_Last data update for this route: 2025-05-18 23:15:48 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -223,7 +223,7 @@ _For each travel date, shows the cheapest *positive* price seen if an observatio
 
 ---
 ## ✈️ Flight Prices: HYD ➔ DEL
-_Last data update for this route: 2025-05-18 23:06:34 IST_
+_Last data update for this route: 2025-05-18 23:13:56 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
