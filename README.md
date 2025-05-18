@@ -1,11 +1,11 @@
 # Flight Price Summary ✈️
 
-_{This README is automatically updated. Last generated: 2025-05-19 02:14:06 IST}_
+_{This README is automatically updated. Last generated: 2025-05-19 02:20:45 IST}_
 
 This page shows the latest tracked flight prices for configured routes. Prices are for one adult, economy, one-way, in INR. All timestamps are in IST.
 
 ## ✈️ Flight Prices: DEL ➔ BLR
-_Last data update for this route: 2025-05-19 02:14:06 IST_
+_Last data update for this route: 2025-05-19 02:20:45 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -115,7 +115,7 @@ _For each travel date, shows the cheapest *positive* price seen if an observatio
 
 ---
 ## ✈️ Flight Prices: DEL ➔ HYD
-_Last data update for this route: 2025-05-19 02:12:11 IST_
+_Last data update for this route: 2025-05-19 02:18:46 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -225,7 +225,7 @@ _For each travel date, shows the cheapest *positive* price seen if an observatio
 
 ---
 ## ✈️ Flight Prices: HYD ➔ DEL
-_Last data update for this route: 2025-05-19 02:10:13 IST_
+_Last data update for this route: 2025-05-19 02:16:47 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -244,7 +244,7 @@ _Last data update for this route: 2025-05-19 02:10:13 IST_
 | 2025-05-29   | Thu | ₹3,849 | 6:00 AM → 8:05 AM | IndiGo | 2 hr 5 min | 0 | 2025-05-18 14:43:27 IST | 📉 (Low) |
 | 2025-05-30   | Fri | ₹4,301 | 9:05 AM → 12:00 PM | Air India | 2 hr 55 min | 0 | 2025-05-18 14:43:33 IST | 📉 (Low) |
 | 2025-05-31   | Sat | ₹3,849 | 7:45 AM → 9:55 AM | IndiGo | 2 hr 10 min | 0 | 2025-05-18 14:43:39 IST | 📉 (Low) |
-| 2025-06-01   | Sun | ₹3,849 | 6:00 AM → 8:05 AM | IndiGo | 2 hr 5 min | 0 | 2025-05-18 14:43:47 IST | 📉 (Low) |
+| 2025-06-01   | Sun | ₹3,849 | 6:00 AM → 8:05 AM | IndiGo | 2 hr 5 min | 0 | 2025-05-18 14:43:47 IST | 📊 (Typical) |
 | 2025-06-02   | Mon | ₹3,849 | 6:00 AM → 8:05 AM | IndiGo | 2 hr 5 min | 0 | 2025-05-18 14:43:53 IST | 📉 (Low) |
 | 2025-06-03   | Tue | ₹3,849 | 6:00 AM → 8:05 AM | IndiGo | 2 hr 5 min | 0 | 2025-05-18 14:58:11 IST | 📉 (Low) |
 | 2025-06-04   | Wed | ₹4,359 | 7:00 AM → 9:25 AM | Air India | 2 hr 25 min | 0 | 2025-05-18 14:44:08 IST | 📊 (Typical) |
