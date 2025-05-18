@@ -1,11 +1,11 @@
 # Flight Price Summary ✈️
 
-_{This README is automatically updated. Last generated: 2025-05-19 03:07:23 IST}_
+_{This README is automatically updated. Last generated: 2025-05-19 03:16:52 IST}_
 
 This page shows the latest tracked flight prices for configured routes. Prices are for one adult, economy, one-way, in INR. All timestamps are in IST.
 
 ## ✈️ Flight Prices: DEL ➔ BLR
-_Last data update for this route: 2025-05-19 03:07:23 IST_
+_Last data update for this route: 2025-05-19 03:16:52 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -115,7 +115,7 @@ _For each travel date, shows the cheapest *positive* price seen if an observatio
 
 ---
 ## ✈️ Flight Prices: DEL ➔ HYD
-_Last data update for this route: 2025-05-19 03:05:29 IST_
+_Last data update for this route: 2025-05-19 03:14:53 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
@@ -225,7 +225,7 @@ _For each travel date, shows the cheapest *positive* price seen if an observatio
 
 ---
 ## ✈️ Flight Prices: HYD ➔ DEL
-_Last data update for this route: 2025-05-19 03:03:30 IST_
+_Last data update for this route: 2025-05-19 03:12:50 IST_
 
 ### Current Overall Lowest Prices by Travel Date
 | Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |
