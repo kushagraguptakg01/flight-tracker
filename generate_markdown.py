@@ -16,7 +16,7 @@ def format_price(price_value):
 
 def get_price_trend_emoji(trend_str):
     if trend_str is None or trend_str == "N/A" or trend_str == "unknown":
-        return " " # Use non-breaking space for empty trend for alignment
+        return " "
     trend_str = str(trend_str).lower()
     if "low" in trend_str: return "📉 (Low)"
     if "high" in trend_str: return "📈 (High)"
@@ -24,10 +24,18 @@ def get_price_trend_emoji(trend_str):
     return f"{trend_str.capitalize()}"
 
 def extract_time(time_str_full):
-    """Extracts just the time (e.g., '8:15 PM') from a full string like '8:15 PM on Sun, May 18'."""
     if " on " in time_str_full:
         return time_str_full.split(" on ")[0]
-    return time_str_full # Return as is if format is unexpected
+    return time_str_full
+
+def format_timestamp_to_date(iso_timestamp_str):
+    if not iso_timestamp_str:
+        return "N/A"
+    try:
+        dt_obj = datetime.fromisoformat(iso_timestamp_str.replace('Z', '+00:00')) # Handle Z for UTC
+        return dt_obj.strftime('%Y-%m-%d') # Just the date part
+    except (ValueError, TypeError):
+        return "N/A" # Or return original string if preferred
 
 def generate_route_markdown(json_filepath):
     """Generates a markdown section for a single route's data."""
@@ -65,10 +73,9 @@ def generate_route_markdown(json_filepath):
         md_section += "No flight price data available in 'lowest_price_quick_view'.\n\n---\n"
         return md_section
 
-    # Adjusted header for more space in Date and clarity in Flight Details
-    md_section += "| Date           | Day | Lowest Price | Dep → Arr (Cheapest)    | Airline     | Duration   | Stops | Price Trend |\n"
-    md_section += "|-----------------|-----|--------------|-------------------------|-------------|------------|-------|-------------|\n"
-    # The hyphens in the separator line control alignment and suggest column width to some renderers
+    # Added "Lowest Found On" column
+    md_section += "| Flight Date   | Day | Lowest Price | Dep → Arr (Cheapest)    | Airline     | Duration   | Stops | Lowest Found On | Price Trend |\n"
+    md_section += "|-----------------|-----|--------------|-------------------------|-------------|------------|-------|-----------------|-------------|\n"
 
     entries_processed = 0
     sorted_flight_dates = sorted(quick_view_data.keys())
@@ -77,11 +84,13 @@ def generate_route_markdown(json_filepath):
         entries_processed +=1
         details = quick_view_data[flight_date_str]
         day_of_week_full = details.get("day_of_week", "N/A")
-        day_of_week_short = day_of_week_full[:3] if day_of_week_full != "N/A" else "N/A" # First 3 letters
+        day_of_week_short = day_of_week_full[:3] if day_of_week_full != "N/A" else "N/A"
 
         numeric_price = details.get("numeric_price")
         flight_info = details.get("flight_details")
         error_msg = details.get("error")
+        first_recorded_at_ts = details.get("first_recorded_at") # Get the timestamp
+        lowest_price_found_date_display = format_timestamp_to_date(first_recorded_at_ts) # Format it
 
         price_display = format_price(numeric_price)
         flight_times_desc = "N/A"
@@ -92,48 +101,47 @@ def generate_route_markdown(json_filepath):
 
         if error_msg:
             flight_times_desc = f"<span style='color:orange;'>Error: {error_msg}</span>"
+            lowest_price_found_date_display = "N/A" # No valid price found on any date
         elif flight_info:
             airline = flight_info.get("name", "N/A")
             dep_time_full = flight_info.get("departure_time", "N/A")
             arr_time_full = flight_info.get("arrival_time", "N/A")
-            arr_ahead = flight_info.get("arrival_time_ahead", "") # e.g., "+1"
+            arr_ahead = flight_info.get("arrival_time_ahead", "")
 
             dep_time_short = extract_time(dep_time_full)
             arr_time_short = extract_time(arr_time_full)
-
             flight_times_desc = f"{dep_time_short} → {arr_time_short}{arr_ahead}"
 
             duration = flight_info.get("duration_str", "N/A")
             stops_val = str(flight_info.get("stops", "N/A"))
-        elif numeric_price is not None:
+        elif numeric_price is not None: # Price exists (e.g. 0), but no flight_info
             flight_times_desc = "_Details unavailable_"
             if numeric_price == 0.0:
                  flight_times_desc = "<span style='color:grey;'>_Likely Canceled/Error_</span>"
-        else:
+            # lowest_price_found_date_display would still be valid if numeric_price is 0 and has a timestamp
+        else: # No error, no flight_info, no numeric_price
             flight_times_desc = "_No data found_"
+            lowest_price_found_date_display = "N/A"
 
-        if flight_date_str in tracked_dates_data:
+
+        if flight_date_str in tracked_dates_data: # For Google Trend
             latest_snapshot = tracked_dates_data[flight_date_str].get("latest_check_snapshot", {})
             google_trend_val = get_price_trend_emoji(latest_snapshot.get("google_price_trend"))
 
-        md_section += f"| {flight_date_str}   | {day_of_week_short} | {price_display} | {flight_times_desc} | {airline} | {duration} | {stops_val} | {google_trend_val} |\n"
-        # Added non-breaking spaces to date string to encourage wider column
+        # Renamed "Flight Date" to make it clear it's the date of travel
+        md_section += f"| {flight_date_str}   | {day_of_week_short} | {price_display} | {flight_times_desc} | {airline} | {duration} | {stops_val} | {lowest_price_found_date_display} | {google_trend_val} |\n"
 
     if entries_processed == 0:
-        md_section += "| N/A             | N/A | N/A          | No data rows found.     | N/A         | N/A        | N/A   |        |\n"
+        md_section += "| N/A             | N/A | N/A          | No data rows found.     | N/A         | N/A        | N/A   | N/A             |        |\n"
 
     md_section += "\n---\n"
     return md_section
 
-# --- (Function: generate_master_markdown - remains IDENTICAL to the previous version) ---
+# --- (Function: generate_master_markdown - remains IDENTICAL) ---
 def generate_master_markdown(json_files, output_md_file):
-    """
-    Generates a master markdown file by combining summaries from multiple JSON files.
-    """
     master_md_content = f"# Flight Price Summary ✈️\n\n"
     master_md_content += f"_{{This README is automatically updated by a GitHub Action. Last generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}}}_\n\n"
     master_md_content += "This page shows the latest tracked flight prices for configured routes. Prices are for one adult, economy, one-way, in INR.\n\n"
-
     processed_any_valid_file = False
     for json_file_path in json_files:
         if os.path.exists(json_file_path):
@@ -143,14 +151,11 @@ def generate_master_markdown(json_files, output_md_file):
         else:
             print(f"Warning: JSON file {json_file_path} not found. Skipping for Markdown report.")
             master_md_content += f"## Data for {os.path.basename(json_file_path)}\n\n_File not found during Markdown generation._\n\n---\n"
-
     if not processed_any_valid_file and json_files:
         master_md_content += "\n_No valid data files were found or processed successfully from the provided list._\n"
     elif not json_files:
         master_md_content += "\n_No data files specified for processing._\n"
-
     master_md_content += "\n\n---\nPowered by [GitHub Actions](https://github.com/features/actions) and Python.\n"
-
     try:
         with open(output_md_file, 'w', encoding='utf-8') as f:
             f.write(master_md_content)
@@ -160,7 +165,7 @@ def generate_master_markdown(json_files, output_md_file):
         return False
     return True
 
-# --- (if __name__ == "__main__": block - remains IDENTICAL to the previous version) ---
+# --- (if __name__ == "__main__": block - remains IDENTICAL) ---
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         output_filename_arg = sys.argv[1]
@@ -174,13 +179,10 @@ if __name__ == "__main__":
         output_filename_arg = "README.md"
         print(f"Defaulting to {output_filename_arg} and discovering JSON files locally.")
         json_files_args = [f for f in os.listdir('.') if f.startswith("flight_tracker_") and f.endswith(".json")]
-
     if not json_files_args:
         print("No flight_tracker_*.json files found to process.")
         sys.exit(0)
-
     print(f"Found JSON files for report: {json_files_args}")
     print(f"Output Markdown to: {output_filename_arg}")
-
     if not generate_master_markdown(json_files_args, output_filename_arg):
         sys.exit(1)
