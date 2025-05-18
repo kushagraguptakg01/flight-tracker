@@ -163,8 +163,8 @@ if __name__ == "__main__":
              json_files_args = [f for f in os.listdir('.') if f.startswith("flight_tracker_") and f.endswith(".json")]
     else:
         print("Usage: python generate_markdown.py <output_markdown_file.md> [input_json_file1.json ...]")
-        print("Defaulting to FLIGHT_PRICES_SUMMARY.md and discovering JSON files locally.")
-        output_filename_arg = "FLIGHT_PRICES_SUMMARY.md"
+        print("Defaulting to README.md and discovering JSON files locally.")
+        output_filename_arg = "README.md"
         json_files_args = [f for f in os.listdir('.') if f.startswith("flight_tracker_") and f.endswith(".json")]
 
     if not json_files_args:
