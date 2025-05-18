@@ -9,7 +9,8 @@ import requests # For Telegram
 # --- CONFIGURATION ---
 ROUTES = [
     {"origin": "HYD", "destination": "DEL", "label": "HYD_to_DEL"},
-    {"origin": "DEL", "destination": "HYD", "label": "DEL_to_HYD"}
+    {"origin": "DEL", "destination": "HYD", "label": "DEL_to_HYD"},
+    {"origin": "DEL", "destination": "BLR", "label": "DEL_to_BLR"}
 ]
 NUM_ADULTS = 1
 MIN_REQUEST_DELAY = 3.0
