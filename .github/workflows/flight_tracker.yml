@@ -1,43 +1,154 @@
-name: Flight Price Tracker
+name: Flight Price Tracker & Report
 
 on:
-  workflow_dispatch: # Allows manual triggering from the Actions tab
+  workflow_dispatch:
   schedule:
-    # Runs every 10 minutes
-    - cron: '*/10 * * * *'
+    - cron: '*/10 * * * *' # Runs every 10 minutes
+  push:
+    branches:
+      - main # Or your default branch, triggers on changes to the repo (e.g., script updates)
 
 jobs:
-  track-flights:
+  track-and-report:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Required to push changes back to the repository
 
+    outputs: # Define outputs for this job
+      json_files_changed: ${{ steps.check_json_modifications.outputs.changed }}
+      markdown_file_generated: ${{ steps.generate_markdown_summary.outputs.generated_file_path }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        # fetch-depth: 0 # Usually not needed for simple add/commit on the current branch
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Or your preferred Python version
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt # matplotlib for optional plots, no new for markdown
 
-      - name: Run flight tracker script
-        run: python flight.py 
+      - name: Run flight tracker script (updates JSONs)
+        id: run_flight_py
+        run: python flight.py
 
-      - name: Commit and push if changes
+      - name: Check for JSON modifications
+        id: check_json_modifications
+        run: |
+          echo "Checking for modifications in flight_tracker_*.json files..."
+          # Use git diff to see if tracked JSON files have changed since last commit
+          # This is more reliable than just git status if flight.py rewrites files without content change.
+          # However, for simplicity with `git add` strategy, checking staged diff is fine.
+          git add flight_tracker_*.json $(find . -maxdepth 1 -name 'flight_tracker_*.json' -print) # Ensure all are added
+          
+          if git diff --staged --quiet --exit-code flight_tracker_*.json $(find . -maxdepth 1 -name 'flight_tracker_*.json' -print); then
+            echo "No substantive changes to JSON flight data files."
+            echo "changed=false" >> $GITHUB_OUTPUT
+            git reset HEAD flight_tracker_*.json $(find . -maxdepth 1 -name 'flight_tracker_*.json' -print) # Unstage if no changes
+          else
+            echo "JSON flight data files were modified."
+            echo "changed=true" >> $GITHUB_OUTPUT
+            # Files remain staged for commit
+          fi
+
+      - name: Generate Markdown Flight Summary
+        id: generate_markdown_summary
+        # Run if JSON changed OR if it's a PUSH event (to update MD if scripts changed)
+        # OR if the markdown file doesn't exist yet (first run)
+        if: steps.check_json_modifications.outputs.changed == 'true' || github.event_name == 'push' || !env.MARKDOWN_EXISTS
+        env:
+          MARKDOWN_FILENAME: "FLIGHT_PRICES_SUMMARY.md"
+        run: |
+          echo "Attempting to generate Markdown summary..."
+          JSON_FILES=$(find . -maxdepth 1 -name 'flight_tracker_*.json' -print) # Get list of JSON files
+          if [ -z "$JSON_FILES" ]; then
+            echo "No flight_tracker_*.json files found. Skipping Markdown generation."
+            echo "generated_file_path=" >> $GITHUB_OUTPUT # Ensure output is empty
+          else
+            echo "Found JSON files: $JSON_FILES"
+            echo "Generating Markdown to $MARKDOWN_FILENAME using: $JSON_FILES"
+            if python generate_markdown.py "$MARKDOWN_FILENAME" $JSON_FILES; then
+              echo "Markdown generation successful."
+              echo "generated_file_path=$MARKDOWN_FILENAME" >> $GITHUB_OUTPUT
+            else
+              echo "Markdown generation script failed."
+              echo "generated_file_path=" >> $GITHUB_OUTPUT # Ensure output is empty on failure
+              # exit 1 # Optionally fail the step if MD generation is critical
+            fi
+          fi
+        # Check if markdown file exists before this step to force generation on first run
+        # This is a bit tricky with env context. A simpler way is to always try to generate
+        # and let the commit step decide if the MD file itself changed.
+        # For the 'if' condition:
+        # `!env.MARKDOWN_EXISTS` isn't standard. A better check before this step would be:
+        # - name: Check if Markdown exists
+        #   id: check_md
+        #   run: |
+        #     if [ -f "FLIGHT_PRICES_SUMMARY.md" ]; then
+        #       echo "exists=true" >> $GITHUB_OUTPUT
+        #     else
+        #       echo "exists=false" >> $GITHUB_OUTPUT
+        #     fi
+        # Then use `steps.check_md.outputs.exists == 'false'` in the 'if' above.
+        # For now, keeping it simpler: generate if JSON changed or push.
+
+      # --- Optional Plotting Steps ---
+      - name: Generate plot images (optional artifact)
+        if: steps.check_json_modifications.outputs.changed == 'true' # Only if data changed
+        run: |
+          mkdir -p ./plots
+          for json_file in $(find . -maxdepth 1 -name 'flight_tracker_*.json' -print); do
+            if [ -f "$json_file" ]; then
+              plot_filename="./plots/plot_$(basename "$json_file" .json).png"
+              python visualize.py "$json_file" "$plot_filename"
+            fi
+          done
+      - name: Upload plot artifacts (optional)
+        if: steps.check_json_modifications.outputs.changed == 'true' # Only if data changed
+        uses: actions/upload-artifact@v4
+        with:
+          name: flight-price-plots
+          path: ./plots/*.png
+          if-no-files-found: warn
+      # --- End Optional Plotting Steps ---
+
+      - name: Commit and Push Updates (JSON and/or Markdown)
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add flight_tracker_*.json # Or be more specific if needed
-          # Check if there are changes to commit
+
+          # JSON files are already staged if they changed by 'check_json_modifications' step.
+          # Add the generated Markdown file if it was created/updated.
+          MARKDOWN_FILE_PATH="${{ steps.generate_markdown_summary.outputs.generated_file_path }}"
+          if [ -n "$MARKDOWN_FILE_PATH" ] && [ -f "$MARKDOWN_FILE_PATH" ]; then
+            echo "Adding $MARKDOWN_FILE_PATH to git."
+            git add "$MARKDOWN_FILE_PATH"
+          else
+            echo "Markdown file path not set or file does not exist. Not adding to git."
+          fi
+
+          # Check if there are any staged changes (JSON or Markdown)
           if ! git diff --staged --quiet; then
-            git commit -m "Update flight data - $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            commit_message="Update flight data and summary - $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            # If only MD changed (e.g. on push without JSON data change)
+            if [[ "${{ steps.check_json_modifications.outputs.changed }}" == "false" && -n "$MARKDOWN_FILE_PATH" ]]; then
+               # Check if MD file *actually* changed content
+               if ! git diff --staged --quiet --exit-code "$MARKDOWN_FILE_PATH"; then
+                  commit_message="Regenerate flight summary markdown - $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+               else
+                  echo "Markdown file exists but content unchanged. No commit needed for MD."
+                  # If JSON also didn't change, this whole commit block might be skipped if nothing is staged.
+                  # If only JSON was reset and MD is unchanged, this commit won't run.
+               fi
+            fi
+            echo "Committing changes with message: $commit_message"
+            git commit -m "$commit_message"
             git push
           else
-            echo "No changes to commit."
+            echo "No substantive changes to JSON data or Markdown summary to commit."
           fi
