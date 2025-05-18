@@ -18,7 +18,7 @@ def format_price(price_value):
 
 def get_price_trend_emoji(trend_str):
     if trend_str is None or trend_str == "N/A" or trend_str == "unknown":
-        return " " # Use non-breaking space for alignment
+        return " " # Use non-breaking space for alignment
     trend_str = str(trend_str).lower()
     if "low" in trend_str: return "📉 (Low)"
     if "high" in trend_str: return "📈 (High)"
@@ -26,6 +26,7 @@ def get_price_trend_emoji(trend_str):
     return f"{trend_str.capitalize()}"
 
 def extract_time(time_str_full):
+    if not time_str_full: return "N/A" # Handle None or empty string
     if " on " in time_str_full:
         return time_str_full.split(" on ")[0]
     return time_str_full
@@ -78,7 +79,8 @@ def get_lowest_price_and_details_in_period(observations_history, period_days, to
     cutoff_date = today_date - timedelta(days=period_days - 1)
 
     for obs in observations_history:
-        check_timestamp_str = obs.get("check_timestamp") # This is UTC ISO string from flight.py
+        # --- BUG FIX: Corrected keys ---
+        check_timestamp_str = obs.get("checked_at") # Corrected from "check_timestamp"
         if not check_timestamp_str:
             continue
         
@@ -96,7 +98,8 @@ def get_lowest_price_and_details_in_period(observations_history, period_days, to
 
             # Check if the observation's UTC date falls within our desired window relative to 'today_date' (which is also a date object)
             if obs_date_utc >= cutoff_date and obs_date_utc <= today_date:
-                cheapest_flight_in_check = obs.get("cheapest_flight_in_this_check")
+                # --- BUG FIX: Corrected key ---
+                cheapest_flight_in_check = obs.get("cheapest_flight_found") # Corrected from "cheapest_flight_in_this_check"
                 if cheapest_flight_in_check:
                     numeric_price = cheapest_flight_in_check.get("numeric_price")
                     if numeric_price is not None and numeric_price < min_price_in_period:
@@ -142,7 +145,7 @@ def generate_route_markdown(json_filepath, today_date):
     if not quick_view_data:
         md_section += "_No overall lowest price data available._\n"
     else:
-        md_section += "| Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |\n"
+        md_section += "| Flight Date   | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |\n"
         md_section += "|-----------------|-----|-------|-----------------------|---------|----------|-------|-------------------|-------|\n"
         sorted_overall_dates = sorted(quick_view_data.keys())
         for flight_date_str in sorted_overall_dates:
@@ -165,7 +168,7 @@ def generate_route_markdown(json_filepath, today_date):
                 dep = extract_time(flight_info.get("departure_time", "N/A"))
                 arr = extract_time(flight_info.get("arrival_time", "N/A"))
                 arr_ahead = flight_info.get("arrival_time_ahead", "")
-                flight_desc = f"{dep} → {arr}{arr_ahead}"
+                flight_desc = f"{dep} → {arr}{arr_ahead if arr_ahead else ''}" # Ensure arr_ahead is not None
                 duration = flight_info.get("duration_str", "N/A")
                 stops_val = str(flight_info.get("stops", "N/A"))
             elif price is not None: # Price exists (e.g. 0), but no flight_info
@@ -175,12 +178,12 @@ def generate_route_markdown(json_filepath, today_date):
             else: # No error, no flight_info, no numeric_price
                 flight_desc = "_No data found_"
 
-            trend_val = " " # Default
+            trend_val = " " # Default
             if flight_date_str in tracked_dates_data:
                 latest_snap = tracked_dates_data[flight_date_str].get("latest_check_snapshot", {})
                 trend_val = get_price_trend_emoji(latest_snap.get("google_price_trend"))
             
-            md_section += f"| {flight_date_str}   | {day_short} | {price_disp} | {flight_desc} | {airline} | {duration} | {stops_val} | {found_on_ist} | {trend_val} |\n"
+            md_section += f"| {flight_date_str}   | {day_short} | {price_disp} | {flight_desc} | {airline} | {duration} | {stops_val} | {found_on_ist} | {trend_val} |\n"
     md_section += "\n"
 
     # --- Recently Observed Prices Tables ---
@@ -218,7 +221,7 @@ def generate_route_markdown(json_filepath, today_date):
                         dep = extract_time(flight_info.get("departure_time", "N/A"))
                         arr = extract_time(flight_info.get("arrival_time", "N/A"))
                         arr_ahead = flight_info.get("arrival_time_ahead", "")
-                        flight_desc = f"{dep} → {arr}{arr_ahead}"
+                        flight_desc = f"{dep} → {arr}{arr_ahead if arr_ahead else ''}" # Ensure arr_ahead is not None
                         duration = flight_info.get("duration_str", "N/A")
                         stops_val = str(flight_info.get("stops", "N/A"))
                     else: # Price found, but no details (should be rare if price exists)
