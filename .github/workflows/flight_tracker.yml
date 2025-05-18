@@ -89,26 +89,6 @@ jobs:
             fi
           fi
 
-      # --- Optional Plotting Steps (remain the same) ---
-      - name: Generate plot images (optional artifact)
-        if: steps.check_json_modifications.outputs.changed == 'true'
-        run: |
-          mkdir -p ./plots
-          for json_file in $(find . -maxdepth 1 -name 'flight_tracker_*.json' -print); do
-            if [ -f "$json_file" ]; then
-              plot_filename="./plots/plot_$(basename "$json_file" .json).png"
-              python visualize.py "$json_file" "$plot_filename"
-            fi
-          done
-      - name: Upload plot artifacts (optional)
-        if: steps.check_json_modifications.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: flight-price-plots
-          path: ./plots/*.png
-          if-no-files-found: warn
-      # --- End Optional Plotting Steps ---
-
       - name: Commit and Push Updates (JSON and/or README.md)
         run: |
           git config --global user.name 'github-actions[bot]'
