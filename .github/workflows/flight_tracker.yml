@@ -1,0 +1,43 @@
+name: Flight Price Tracker
+
+on:
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+  schedule:
+    # Runs every 10 minutes
+    - cron: '*/10 * * * *'
+
+jobs:
+  track-flights:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push changes back to the repository
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Or your preferred Python version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run flight tracker script
+        run: python your_script_name.py # Replace with your actual script filename
+
+      - name: Commit and push if changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add flight_tracker_*.json # Or be more specific if needed
+          # Check if there are changes to commit
+          if ! git diff --staged --quiet; then
+            git commit -m "Update flight data - $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push
+          else
+            echo "No changes to commit."
+          fi
