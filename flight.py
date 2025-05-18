@@ -1,4 +1,4 @@
-from fast_flights import FlightData, Passengers, Result, get_flights
+from fast_flights import FlightData, Passengers, Result, get_flights_from_filter, create_filter
 from datetime import datetime, timedelta, date
 import json
 import time
@@ -66,10 +66,17 @@ def fetch_single_date_flights(target_date_obj: date, origin: str, destination: s
     day_of_week = target_date_obj.strftime("%A")
     print(f"Fetching flights for {origin}->{destination} on: {date_str} ({day_of_week})")
     try:
-        result: Result = get_flights(
+        # Create the filter first
+        flight_filter = create_filter(
             flight_data=[FlightData(date=date_str, from_airport=origin, to_airport=destination)],
             trip="one-way", seat="economy",
-            passengers=Passengers(adults=adults), fetch_mode="fallback",
+            passengers=Passengers(adults=adults)
+        )
+        # Then fetch with currency
+        result: Result = get_flights_from_filter(
+            flight_filter,
+            currency="INR", # Specify INR currency
+            mode="fallback"
         )
         print(f"  Found {len(result.flights)} flights for {origin}->{destination}. Trend: {result.current_price}")
         return {"result_obj": result, "day_of_week": day_of_week, "error": None}
@@ -93,7 +100,8 @@ def flight_to_dict(flight_obj):
 def convert_price_str_to_numeric(price_str):
     if not price_str: return None
     try:
-        cleaned_price_digits = ''.join(filter(str.isdigit, price_str.split('.')[0]))
+        # Assuming INR prices might have '₹' symbol, removing it along with commas
+        cleaned_price_digits = ''.join(filter(str.isdigit, price_str.replace('₹', '').replace(',', '').split('.')[0]))
         if cleaned_price_digits: return float(cleaned_price_digits)
     except: pass
     return None
