@@ -56,13 +56,13 @@ def send_telegram_notification_for_new_lowest(origin, destination, flight_date_s
     message = (
         f"🎉 *New Lowest Price Alert* 🎉\n\n"
         f"Route: *{esc_origin} ➔ {esc_destination}*\n"
-        f"Travel Date: *{esc_flight_date_str}* ({esc_day_of_week})\n"
+        f"Travel Date: *{esc_flight_date_str}* {esc_day_of_week}\n"
         f"New Lowest Price: *₹{esc_new_price}*\n"
-        f"_(Previously: ₹{esc_old_price})_\n\n"
+        f"Previously: ₹{esc_old_price}\n\n"
         f"*Flight Details:*\n"
         f"  Airline: {esc_airline}\n  Departure: {esc_dep_time}\n  Arrival: {esc_arr_time}\n"
         f"  Duration: {esc_duration}\n  Stops: {esc_stops}\n\n"
-        f"Check the [{link_display_text}]({github_link_url}) for more details\\."
+        # f"Check the [{link_display_text}]({github_link_url}) for more details\\."
     )
     url_tg_api = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
