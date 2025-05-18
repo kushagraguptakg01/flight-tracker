@@ -1,3 +1,4 @@
+# Updated /.github/workflows/flight_tracker.yml
 name: Flight Price Tracker & Report
 
 on:
@@ -32,8 +33,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run flight tracker script (updates JSONs)
-        id: run_flight_py # This is where JSONs are potentially created/updated
+      - name: Run flight tracker script (updates JSONs & sends notifications)
+        id: run_flight_py
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_REPOSITORY: ${{ github.repository }} # Used by flight.py for link in notification
         run: python flight.py
 
       - name: Check if README.md exists
@@ -46,25 +51,25 @@ jobs:
             echo "README.md does not exist. Will attempt to generate it."
           fi
 
-      - name: Check for JSON modifications
+      - name: Stage JSON modifications for commit and set output
         id: check_json_modifications
         run: |
-          echo "Checking for modifications in flight_tracker_*.json files..."
-          JSON_FILES_TO_CHECK=$(find . -maxdepth 1 -name 'flight_tracker_*.json' -print)
-          if [ -n "$JSON_FILES_TO_CHECK" ]; then
-            git add $JSON_FILES_TO_CHECK
-            if git diff --staged --quiet --exit-code $JSON_FILES_TO_CHECK; then
-              echo "No substantive changes to JSON flight data files."
-              echo "changed=false" >> $GITHUB_OUTPUT
-              git reset HEAD $JSON_FILES_TO_CHECK
+          JSON_FILES_TO_STAGE=$(find . -maxdepth 1 -name 'flight_tracker_*.json' -print)
+          changed_flag="false"
+          if [ -n "$JSON_FILES_TO_STAGE" ]; then
+            git add $JSON_FILES_TO_STAGE # Add all current JSONs
+            # Check if staged files are different from HEAD (last commit)
+            if ! git diff --staged --quiet --exit-code $JSON_FILES_TO_STAGE; then
+              changed_flag="true"
+              echo "JSON files have changes to be committed."
             else
-              echo "JSON flight data files were modified."
-              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "No changes in JSON files to be committed (compared to HEAD)."
+              git reset HEAD $JSON_FILES_TO_STAGE # Unstage if identical to HEAD
             fi
           else
-            echo "No flight_tracker_*.json files found to check for modifications."
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No flight_tracker_*.json files found in workspace."
           fi
+          echo "changed=$changed_flag" >> $GITHUB_OUTPUT
 
       - name: Generate README.md Flight Summary
         id: generate_readme_summary
@@ -72,42 +77,34 @@ jobs:
         env:
           MARKDOWN_FILENAME: "README.md"
         run: |
-          echo "Attempting to generate $MARKDOWN_FILENAME summary..."
           JSON_FILES=$(find . -maxdepth 1 -name 'flight_tracker_*.json' -print)
           if [ -z "$JSON_FILES" ]; then
-            echo "No flight_tracker_*.json files found. Skipping $MARKDOWN_FILENAME generation."
-            echo "generated_file_path=" >> $GITHUB_OUTPUT
+            echo "No JSON files found for README. Skipping."; echo "generated_file_path=" >> $GITHUB_OUTPUT;
           else
-            echo "Found JSON files: $JSON_FILES"
-            echo "Generating $MARKDOWN_FILENAME using: $JSON_FILES"
             if python generate_markdown.py "$MARKDOWN_FILENAME" $JSON_FILES; then
-              echo "$MARKDOWN_FILENAME generation successful."
-              echo "generated_file_path=$MARKDOWN_FILENAME" >> $GITHUB_OUTPUT
+              echo "generated_file_path=$MARKDOWN_FILENAME" >> $GITHUB_OUTPUT;
             else
-              echo "$MARKDOWN_FILENAME generation script failed."
-              echo "generated_file_path=" >> $GITHUB_OUTPUT
+              echo "README generation failed."; echo "generated_file_path=" >> $GITHUB_OUTPUT;
             fi
           fi
 
-      - name: Commit and Push Updates (JSON and/or README.md)
+      - name: Commit and Push Updates
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
           MARKDOWN_FILE_PATH="${{ steps.generate_readme_summary.outputs.generated_file_path }}"
+          # JSONs are already staged by 'check_json_modifications' if they changed from HEAD
           if [ -n "$MARKDOWN_FILE_PATH" ] && [ -f "$MARKDOWN_FILE_PATH" ]; then
-            echo "Adding $MARKDOWN_FILE_PATH to git."
             git add "$MARKDOWN_FILE_PATH"
-          else
-            echo "README.md path not set or file does not exist. Not adding to git."
           fi
-
+          
           if ! git diff --staged --quiet; then
             commit_message="Update flight data and README.md summary - $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-            json_changed_flag="${{ steps.check_json_modifications.outputs.changed }}"
+            json_changed_flag="${{ steps.check_json_modifications.outputs.changed }}" # from the step that stages based on HEAD
             
             readme_content_changed=false
             if [ -n "$MARKDOWN_FILE_PATH" ] && [ -f "$MARKDOWN_FILE_PATH" ]; then
+                # Check if the README (now staged if it was generated/changed) is different from HEAD
                 if ! git diff --staged --quiet --exit-code "$MARKDOWN_FILE_PATH"; then
                     readme_content_changed=true
                 fi
@@ -116,15 +113,13 @@ jobs:
             if [[ "$json_changed_flag" == "false" && "$readme_content_changed" == "true" ]]; then
                commit_message="Regenerate README.md flight summary - $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             elif [[ "$json_changed_flag" == "false" && "$readme_content_changed" == "false" ]]; then
-               # This case should ideally not happen due to the outer 'if ! git diff --staged --quiet'
-               # but as a fallback if only unstaged JSONs were reset and MD was added but identical.
                echo "No actual content changes detected for commit after adding files."
-               exit 0 # Exit successfully, no commit needed
+               exit 0 
             fi
             
             echo "Committing changes with message: $commit_message"
             git commit -m "$commit_message"
             git push
           else
-            echo "No substantive changes to JSON data or README.md to commit."
+            echo "No changes to commit."
           fi
