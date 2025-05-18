@@ -1,0 +1,46 @@
+name: Run Python Tests
+
+on:
+  push: # Triggers the workflow on push events
+    branches: # You can specify branches or use '**' for all
+      - main
+      - 'feature/**' # Example: run on pushes to branches starting with 'feature/'
+      - '**'          # This will run on push to ANY branch
+  pull_request: # Triggers the workflow on pull request events
+    branches:
+      - main # Typically, PRs targeting your main branch
+
+jobs:
+  test:
+    name: Run Pytest
+    runs-on: ubuntu-latest # Or any other OS you prefer, e.g., windows-latest, macos-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11'] # Test against multiple Python versions
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Install testing specific dependencies if they are in a separate file
+          # For example, if you have a requirements-dev.txt:
+          # if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          # Or install them directly:
+          pip install pytest pytest-mock freezegun
+
+      - name: Run tests with Pytest
+        run: |
+          pytest tests/
+          # If you want to generate a coverage report (optional):
+          # pip install pytest-cov
+          # pytest --cov=./ --cov-report=xml tests/ # Adjust --cov=./ to your source code directory
