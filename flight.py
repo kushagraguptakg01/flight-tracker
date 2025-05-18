@@ -39,38 +39,48 @@ def send_telegram_notification_for_new_lowest(origin, destination, flight_date_s
         print("Telegram bot token or chat ID not configured. Skipping notification.")
         return
 
-    # Ensure all dynamic parts are strings before escaping
-    dep_time = escape_markdown_v2(str(flight_details_dict.get("departure_time", "N/A")))
-    arr_time = escape_markdown_v2(str(flight_details_dict.get("arrival_time", "N/A")))
-    airline = escape_markdown_v2(str(flight_details_dict.get("name", "N/A")))
-    stops = escape_markdown_v2(str(flight_details_dict.get("stops", "N/A")))
-    duration = escape_markdown_v2(str(flight_details_dict.get("duration_str", "N/A")))
+    # Escape all individual pieces of data that will form the text content
+    esc_origin = escape_markdown_v2(origin)
+    esc_destination = escape_markdown_v2(destination)
+    esc_flight_date_str = escape_markdown_v2(flight_date_str)
+    esc_day_of_week = escape_markdown_v2(day_of_week)
+    esc_new_price = escape_markdown_v2(str(new_price))
+    esc_old_price = escape_markdown_v2(str(old_price) if old_price != float('inf') else 'N/A')
+
+    esc_dep_time = escape_markdown_v2(flight_details_dict.get("departure_time", "N/A"))
+    esc_arr_time = escape_markdown_v2(flight_details_dict.get("arrival_time", "N/A"))
+    esc_airline = escape_markdown_v2(flight_details_dict.get("name", "N/A"))
+    esc_stops = escape_markdown_v2(str(flight_details_dict.get("stops", "N/A")))
+    esc_duration = escape_markdown_v2(flight_details_dict.get("duration_str", "N/A"))
+
+    github_link_url = f"https://github.com/{GITHUB_REPO_NAME}"
+    link_text = "full summary on GitHub" # Static text, no need to escape here
 
     message = (
         f"🎉 *New Lowest Price Alert* 🎉\n\n"
-        f"Route: *{escape_markdown_v2(origin)} ➔ {escape_markdown_v2(destination)}*\n"
-        f"Travel Date: *{escape_markdown_v2(flight_date_str)}* ({escape_markdown_v2(day_of_week)})\n"
-        f"New Lowest Price: *₹{escape_markdown_v2(str(new_price))}*\n"
-        f"_(Previously: ₹{escape_markdown_v2(str(old_price) if old_price != float('inf') else 'N/A')})_\n\n"
+        f"Route: *{esc_origin} ➔ {esc_destination}*\n"
+        f"Travel Date: *{esc_flight_date_str}* {esc_day_of_week}\n"
+        f"New Lowest Price: *₹{esc_new_price}*\n"
+        f"Previously: ₹{esc_old_price}\n\n"
         f"*Flight Details:*\n"
-        f"  Airline: {airline}\n"
-        f"  Departure: {dep_time}\n"
-        f"  Arrival: {arr_time}\n"
-        f"  Duration: {duration}\n"
-        f"  Stops: {stops}\n\n"
-        f"Check the [full summary on GitHub](https://github.com/{GITHUB_REPO_NAME}) for more details\\." # Escaped . for link
+        f"  Airline: {esc_airline}\n"
+        f"  Departure: {esc_dep_time}\n"
+        f"  Arrival: {esc_arr_time}\n"
+        f"  Duration: {esc_duration}\n"
+        f"  Stops: {esc_stops}\n\n"
+        # f"Check the [{link_text}]({github_link_url}) for more details\\." # Final period is escaped
     )
 
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    url_tg_api = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
     try:
-        response = requests.post(url, data=payload, timeout=10)
+        response = requests.post(url_tg_api, data=payload, timeout=10)
         response.raise_for_status()
         print(f"  Telegram notification sent for {flight_date_str}: {response.json().get('ok')}")
     except requests.exceptions.RequestException as e:
         print(f"  Error sending Telegram notification for {flight_date_str}: {e}")
         if hasattr(e, 'response') and e.response is not None:
-            print(f"    Telegram API Response: {e.response.text}")
+            print(f"    Telegram API Response (error): {e.response.text}")
     except Exception as e:
         print(f"  An unexpected error occurred sending Telegram notification: {e}")
 
