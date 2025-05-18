@@ -4,7 +4,6 @@ import json
 import time
 import random
 import os
-import schedule
 
 # --- CONFIGURATION ---
 # Define a list of routes to track
@@ -230,20 +229,6 @@ def run_all_routes_job():
 
 
 if __name__ == "__main__":
-    print(f"Script started. Flight tracker job will run every {RUN_INTERVAL_MINUTES} minutes for all configured routes.")
-    print("The first run for all routes will start immediately.")
-
-    run_all_routes_job() 
-    
-    schedule.every(RUN_INTERVAL_MINUTES).minutes.do(run_all_routes_job)
-
-    try:
-        while True:
-            schedule.run_pending()
-            time.sleep(10) 
-    except KeyboardInterrupt:
-        print("\nScheduler stopped by user (Ctrl+C).")
-    except Exception as e:
-        print(f"\nScheduler crashed due to an unexpected error: {e}")
-    finally:
-        print("Exiting flight tracker script.")
+    print(f"Script started for a single execution run via GitHub Actions.") # Updated message
+    run_all_routes_job()
+    print("Script execution finished.") # Updated message
