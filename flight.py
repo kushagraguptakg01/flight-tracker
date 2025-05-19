@@ -40,40 +40,84 @@ def send_telegram_notification_for_new_lowest(origin, destination, flight_date_s
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram bot token or chat ID not configured. Skipping notification.")
         return
-    # ... (escaping and message construction as in the previous correct version) ...
+    
     esc_origin, esc_destination = escape_markdown_v2(origin), escape_markdown_v2(destination)
     esc_flight_date_str, esc_day_of_week = escape_markdown_v2(flight_date_str), escape_markdown_v2(day_of_week)
     esc_new_price = escape_markdown_v2(str(new_price))
     esc_old_price_text = 'N/A' if old_price == float('inf') else str(old_price)
     esc_old_price = escape_markdown_v2(esc_old_price_text)
-    esc_dep_time = escape_markdown_v2(str(flight_details_dict.get("departure", "N/A")))
-    esc_arr_time = escape_markdown_v2(str(flight_details_dict.get("arrival", "N/A")))
-    esc_airline = escape_markdown_v2(str(flight_details_dict.get("name", "N/A")))
+    
+    # Assuming flight_details_dict has 'departure', 'arrival', 'duration' keys with string values
+    esc_dep_time = escape_markdown_v2(flight_details_dict.get("departure", "N/A"))
+    esc_arr_time = escape_markdown_v2(flight_details_dict.get("arrival", "N/A"))
+    esc_airline = escape_markdown_v2(flight_details_dict.get("name", "N/A"))
     esc_stops = escape_markdown_v2(str(flight_details_dict.get("stops", "N/A")))
-    esc_duration = escape_markdown_v2(str(flight_details_dict.get("duration", "N/A")))
+    esc_duration = escape_markdown_v2(flight_details_dict.get("duration", "N/A")) # Changed from duration_str
+    
     github_link_url = f"https://github.com/{GITHUB_REPO_NAME}"
     link_display_text = "full summary on GitHub"
     message = (
-        f"🎉 *New Lowest Price Alert* 🎉\n\n"
+        f"🎉 *New Overall Lowest Price Alert* 🎉\n\n"
         f"Route: *{esc_origin} ➔ {esc_destination}*\n"
-        f"Travel Date: *{esc_flight_date_str}* {esc_day_of_week}\n"
+        f"Travel Date: *{esc_flight_date_str}* {esc_day_of_week}\n" # Corrected: day_of_week not bold
         f"New Lowest Price: *₹{esc_new_price}*\n"
-        f"Previously: ₹{esc_old_price}\n\n"
+        f"Previously: ₹{esc_old_price}\n\n" # Corrected: old_price styling
         f"*Flight Details:*\n"
         f"  Airline: {esc_airline}\n  Departure: {esc_dep_time}\n  Arrival: {esc_arr_time}\n"
         f"  Duration: {esc_duration}\n  Stops: {esc_stops}\n\n"
-        # f"Check the [{link_display_text}]({github_link_url}) for more details\\."
+        # f"Check the [{link_display_text}]({github_link_url}) for more details\\." # Still commented
     )
     url_tg_api = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
     try:
         response = requests.post(url_tg_api, data=payload, timeout=10)
         response.raise_for_status()
-        print(f"  Telegram notification sent for {flight_date_str}: {response.json().get('ok')}")
+        print(f"  Telegram (New Overall Lowest) sent for {flight_date_str}: {response.json().get('ok')}")
     except requests.exceptions.RequestException as e:
-        print(f"  Error sending Telegram for {flight_date_str}: {e}")
+        print(f"  Error sending Telegram (New Overall Lowest) for {flight_date_str}: {e}")
         if hasattr(e, 'response') and e.response is not None: print(f"    TG API Error: {e.response.text}")
-    except Exception as e: print(f"  Unexpected error sending Telegram: {e}")
+    except Exception as e: print(f"  Unexpected error sending Telegram (New Overall Lowest): {e}")
+
+
+# --- NEW NOTIFICATION FUNCTION ---
+def send_telegram_notification_for_price_drop_since_last_check(origin, destination, flight_date_str, day_of_week,
+                                                            current_snapshot_price, previous_snapshot_price, flight_details_dict):
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        print("Telegram bot token or chat ID not configured. Skipping notification.")
+        return
+
+    esc_origin, esc_destination = escape_markdown_v2(origin), escape_markdown_v2(destination)
+    esc_flight_date_str, esc_day_of_week = escape_markdown_v2(flight_date_str), escape_markdown_v2(day_of_week)
+    esc_current_price = escape_markdown_v2(str(current_snapshot_price))
+    esc_previous_price = escape_markdown_v2(str(previous_snapshot_price))
+
+    # Assuming flight_details_dict has 'departure', 'arrival', 'duration' keys with string values
+    esc_dep_time = escape_markdown_v2(flight_details_dict.get("departure", "N/A"))
+    esc_arr_time = escape_markdown_v2(flight_details_dict.get("arrival", "N/A"))
+    esc_airline = escape_markdown_v2(flight_details_dict.get("name", "N/A"))
+    esc_stops = escape_markdown_v2(str(flight_details_dict.get("stops", "N/A")))
+    esc_duration = escape_markdown_v2(flight_details_dict.get("duration", "N/A")) # Changed from duration_str
+
+    message = (
+        f"📉 *Price Drop Alert Since Last Check* 📉\n\n"
+        f"Route: *{esc_origin} ➔ {esc_destination}*\n"
+        f"Travel Date: *{esc_flight_date_str}* {esc_day_of_week}\n"
+        f"Current Price: *₹{esc_current_price}*\n"
+        f"Previously: ₹{esc_previous_price} in last check\n\n"
+        f"*Current Flight Details:*\n"
+        f"  Airline: {esc_airline}\n  Departure: {esc_dep_time}\n  Arrival: {esc_arr_time}\n"
+        f"  Duration: {esc_duration}\n  Stops: {esc_stops}\n"
+    )
+    url_tg_api = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
+    try:
+        response = requests.post(url_tg_api, data=payload, timeout=10)
+        response.raise_for_status()
+        print(f"  Telegram (Drop Since Last Check) sent for {flight_date_str}: {response.json().get('ok')}")
+    except requests.exceptions.RequestException as e:
+        print(f"  Error sending Telegram (Drop Since Last Check) for {flight_date_str}: {e}")
+        if hasattr(e, 'response') and e.response is not None: print(f"    TG API Error: {e.response.text}")
+    except Exception as e: print(f"  Unexpected error sending Telegram (Drop Since Last Check): {e}")
 
 
 def get_json_filename(route_label: str): return f"flight_tracker_{route_label}.json"
@@ -113,9 +157,17 @@ def fetch_single_date_flights(target_date_obj: date, origin: str, dest: str, adu
 
 def flight_to_dict(flight_obj):
     if not flight_obj: return None
+    # Ensure the keys here match the attributes available on the fast-flights object
+    # AND that these attributes provide the string values expected by Telegram functions.
+    # If fast-flights attributes are, e.g., 'departure_time_obj' (a datetime object),
+    # you'd need to format it here: 'departure': flight_obj.departure_time_obj.strftime('%I:%M %p') if flight_obj.departure_time_obj else None
     return {k: getattr(flight_obj, k, None) for k in [
-        "is_best", "name", "departure", "arrival", "arrival_time_ahead", 
-        "duration", "stops", "delay", "price"
+        "is_best", "name", 
+        "departure",  # Assumed to be a string like "10:00 AM on Mon, 15 Jan" from fast-flights
+        "arrival",    # Assumed to be a string
+        "arrival_time_ahead", 
+        "duration",   # Assumed to be a string like "2 hr 30 min"
+        "stops", "delay", "price" # 'price' here is the raw string from fast-flights
     ]}
 
 def convert_price_str_to_numeric(price_str):
@@ -154,6 +206,14 @@ def process_route_data(origin: str, destination: str, route_label: str):
         flight_date_str = current_processing_date.strftime("%Y-%m-%d")
         current_check_timestamp_iso = datetime.now(timezone.utc).isoformat()
 
+        # --- Store previous snapshot's price for this travel date ---
+        previous_snapshot_price = None
+        if flight_date_str in master_data["tracked_flight_dates"]:
+            old_latest_snapshot = master_data["tracked_flight_dates"][flight_date_str].get("latest_check_snapshot")
+            if old_latest_snapshot and old_latest_snapshot.get("cheapest_flight_found"):
+                previous_snapshot_price = old_latest_snapshot["cheapest_flight_found"].get("numeric_price")
+                # This previous_snapshot_price can be 0.0 or None or positive
+
         if not is_first_api_call: time.sleep(random.uniform(MIN_REQUEST_DELAY, MAX_REQUEST_DELAY))
         is_first_api_call = False
 
@@ -166,8 +226,7 @@ def process_route_data(origin: str, destination: str, route_label: str):
             }
         master_data["tracked_flight_dates"][flight_date_str]["day_of_week"] = fetched["day_of_week"]
 
-        # current_price will be None if cheapest is 0.0 or no flights/error
-        current_flight_obj, current_price = (None, None) 
+        current_flight_obj, current_price = (None, None) # current_price is non-zero or None
         g_trend, num_flights, err_msg = "unknown", 0, fetched["error"]
 
         if fetched["result_obj"] and fetched["result_obj"].flights:
@@ -190,42 +249,54 @@ def process_route_data(origin: str, destination: str, route_label: str):
                         cleaned_digits = ''.join(filter(str.isdigit, snap_price_str.replace('₹', '').replace(',', '').split('.')[0]))
                         if cleaned_digits: snap_numeric_price = float(cleaned_digits)
                     except: pass
-                
                 if snap_numeric_price is not None and snap_numeric_price < temp_cheapest_price:
                     temp_cheapest_price = snap_numeric_price
                     temp_cheapest_flight = flight_obj_snap
             raw_cheapest_flight_obj_this_check = temp_cheapest_flight
             raw_cheapest_numeric_price_this_check = temp_cheapest_price if temp_cheapest_price != float('inf') else None
+            # raw_cheapest_numeric_price_this_check can be 0.0 here
 
-
-        latest_snapshot = {
+        latest_snapshot_to_store = {
             "checked_at": current_check_timestamp_iso,
-            "cheapest_flight_found": { # This snapshot records the actual cheapest, even if 0
+            "cheapest_flight_found": { 
                 "numeric_price": raw_cheapest_numeric_price_this_check,
                 "price_str": getattr(raw_cheapest_flight_obj_this_check, 'price', None) if raw_cheapest_flight_obj_this_check else None,
                 "flight_details": flight_to_dict(raw_cheapest_flight_obj_this_check)
             } if raw_cheapest_flight_obj_this_check else None,
             "google_price_trend": g_trend, "number_of_flights_found": num_flights, "error_if_any": err_msg
         }
-        master_data["tracked_flight_dates"][flight_date_str]["latest_check_snapshot"] = latest_snapshot
+        master_data["tracked_flight_dates"][flight_date_str]["latest_check_snapshot"] = latest_snapshot_to_store
         if not isinstance(master_data["tracked_flight_dates"][flight_date_str].get("hourly_observations_history"), list):
             master_data["tracked_flight_dates"][flight_date_str]["hourly_observations_history"] = []
-        master_data["tracked_flight_dates"][flight_date_str]["hourly_observations_history"].append(latest_snapshot)
+        master_data["tracked_flight_dates"][flight_date_str]["hourly_observations_history"].append(latest_snapshot_to_store)
 
-        # --- Lowest Price Logic & Notification (uses `current_price` which excludes 0.0) ---
+        # --- New "Price Drop Since Last Check" Notification Logic ---
+        if raw_cheapest_numeric_price_this_check is not None and \
+           raw_cheapest_numeric_price_this_check > 0 and \
+           previous_snapshot_price is not None and \
+           previous_snapshot_price > 0 and \
+           raw_cheapest_numeric_price_this_check < previous_snapshot_price:
+            
+            print(f"  📉 Price drop since last check for {flight_date_str}: ₹{raw_cheapest_numeric_price_this_check} (was ₹{previous_snapshot_price})")
+            send_telegram_notification_for_price_drop_since_last_check(
+                origin, destination, flight_date_str, fetched["day_of_week"],
+                raw_cheapest_numeric_price_this_check, 
+                previous_snapshot_price,            
+                flight_to_dict(raw_cheapest_flight_obj_this_check) 
+            )
+
+        # --- Existing Overall Lowest Price Logic & Notification (uses `current_price` which excludes 0.0) ---
         existing_lowest_record = master_data["tracked_flight_dates"][flight_date_str].get("lowest_price_ever_recorded")
         prev_overall_lowest_price = float('inf')
         if existing_lowest_record and existing_lowest_record.get("numeric_price") is not None:
             # Ensure previous lowest is not 0.0 for comparison basis, unless it's the only thing recorded
             if existing_lowest_record["numeric_price"] > 0:
                  prev_overall_lowest_price = existing_lowest_record["numeric_price"]
-            # If existing_lowest_record["numeric_price"] is 0.0, prev_overall_lowest_price remains inf, so any new valid price will be lower.
 
         new_best_found_this_run = False
-        if current_price is not None: # current_price is already non-zero or None
+        if current_price is not None: # current_price is already non-zero (positive) or None
             if current_price < prev_overall_lowest_price:
                 new_best_found_this_run = True
-                # ... (rest of the new best price and notification logic - IDENTICAL to previous correct version)
                 print(f"  🎉 NEW OVERALL BEST for {flight_date_str}: ₹{current_price} (was ₹{prev_overall_lowest_price if prev_overall_lowest_price != float('inf') else 'N/A'})")
                 new_record = {
                     "numeric_price": current_price, "price_str": getattr(current_flight_obj, 'price', None),
@@ -238,23 +309,19 @@ def process_route_data(origin: str, destination: str, route_label: str):
                     origin, destination, flight_date_str, fetched["day_of_week"],
                     current_price, prev_overall_lowest_price, flight_to_dict(current_flight_obj)
                 )
-            elif current_price == prev_overall_lowest_price and existing_lowest_record and current_price > 0: # Only update confirmed if valid price
+            elif current_price == prev_overall_lowest_price and existing_lowest_record: # current_price is > 0 here
                 existing_lowest_record["last_confirmed_at"] = current_check_timestamp_iso
                 if flight_date_str in master_data["lowest_price_quick_view"]:
                     master_data["lowest_price_quick_view"][flight_date_str]["last_confirmed_at"] = current_check_timestamp_iso
         
-        # Update quick_view if there's an error OR (no valid flight was found AND no new best was recorded this run)
-        # This logic ensures quick_view reflects errors or "no flights" only if there isn't already a valid best price.
         if err_msg or (current_price is None and not new_best_found_this_run):
             update_quick_view_with_status = False
             if flight_date_str not in master_data["lowest_price_quick_view"]:
-                update_quick_view_with_status = True # Date is new to quick_view
+                update_quick_view_with_status = True 
             else:
-                # If existing quick_view entry is already an error or has no price, it's okay to update
                 qv_entry = master_data["lowest_price_quick_view"][flight_date_str]
-                if qv_entry.get("numeric_price") is None: # existing is error or no data
+                if qv_entry.get("numeric_price") is None: 
                     update_quick_view_with_status = True
-            
             if update_quick_view_with_status:
                 status_to_store = err_msg if err_msg else "No valid (non-zero) flights found this check"
                 master_data["lowest_price_quick_view"][flight_date_str] = {
@@ -262,19 +329,18 @@ def process_route_data(origin: str, destination: str, route_label: str):
                     "price_str": None, "flight_details": None,
                     "first_recorded_at": None, "last_confirmed_at": None, "error": status_to_store
                 }
-
         print(f"  Finished processing {flight_date_str} for {route_label}.")
     save_data(json_filepath, master_data, origin, destination)
     print(f"--- Finished Processing Route: {origin} to {destination} ({route_label}) ---")
 
 
-def run_all_routes_job(): # (Identical)
+def run_all_routes_job(): 
     print(f"========= Master Job Started: {datetime.now(timezone.utc).isoformat()} =========") 
     for route_info in ROUTES:
         process_route_data(route_info["origin"], route_info["destination"], route_info["label"])
     print(f"========= Master Job Ended: {datetime.now(timezone.utc).isoformat()} =========") 
 
-if __name__ == "__main__": # (Identical)
+if __name__ == "__main__": 
     print(f"Script started for flight data update run.")
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Warning: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID env vars not set. Notifications will be skipped.")
