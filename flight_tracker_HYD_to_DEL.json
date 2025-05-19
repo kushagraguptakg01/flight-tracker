@@ -1,6 +1,6 @@
 {
     "meta_info": {
-        "script_last_successful_run_timestamp": "2025-05-19T21:53:05.795958+00:00",
+        "script_last_successful_run_timestamp": "2025-05-19T22:10:49.534296+00:00",
         "origin": "HYD",
         "destination": "DEL"
     },
@@ -57,7 +57,7 @@
                 "price_str": "\u20b93849"
             },
             "first_recorded_at": "2025-05-18T09:26:41.864739",
-            "last_confirmed_at": "2025-05-19T21:42:50.973493+00:00"
+            "last_confirmed_at": "2025-05-19T22:08:42.387722+00:00"
         },
         "2025-05-21": {
             "day_of_week": "Wednesday",
@@ -111,7 +111,7 @@
                 "price": "\u20b94280"
             },
             "first_recorded_at": "2025-05-19T18:42:50.262759+00:00",
-            "last_confirmed_at": "2025-05-19T21:51:14.253155+00:00"
+            "last_confirmed_at": "2025-05-19T22:08:56.447360+00:00"
         },
         "2025-05-24": {
             "day_of_week": "Saturday",
@@ -219,7 +219,7 @@
                 "price_str": "\u20b93849"
             },
             "first_recorded_at": "2025-05-18T09:13:27.237604",
-            "last_confirmed_at": "2025-05-19T21:51:41.329912+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:19.732577+00:00"
         },
         "2025-05-30": {
             "day_of_week": "Friday",
@@ -237,7 +237,7 @@
                 "price": "\u20b94280"
             },
             "first_recorded_at": "2025-05-19T18:43:24.522475+00:00",
-            "last_confirmed_at": "2025-05-19T21:51:45.017905+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:22.835444+00:00"
         },
         "2025-05-31": {
             "day_of_week": "Saturday",
@@ -273,7 +273,7 @@
                 "price_str": "\u20b93849"
             },
             "first_recorded_at": "2025-05-18T09:13:47.083910",
-            "last_confirmed_at": "2025-05-19T21:51:53.717875+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:29.191498+00:00"
         },
         "2025-06-02": {
             "day_of_week": "Monday",
@@ -291,7 +291,7 @@
                 "price_str": "\u20b93849"
             },
             "first_recorded_at": "2025-05-18T09:13:53.475065",
-            "last_confirmed_at": "2025-05-19T21:51:58.310192+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:32.786734+00:00"
         },
         "2025-06-03": {
             "day_of_week": "Tuesday",
@@ -309,7 +309,7 @@
                 "price": "\u20b93820"
             },
             "first_recorded_at": "2025-05-19T10:40:26.183072+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:03.737923+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:36.557056+00:00"
         },
         "2025-06-04": {
             "day_of_week": "Wednesday",
@@ -345,7 +345,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T04:03:09.040346+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:11.563496+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:46.077411+00:00"
         },
         "2025-06-06": {
             "day_of_week": "Friday",
@@ -363,7 +363,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T03:35:24.548493+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:14.826253+00:00"
+            "last_confirmed_at": "2025-05-19T22:09:50.208559+00:00"
         },
         "2025-06-07": {
             "day_of_week": "Saturday",
@@ -381,7 +381,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T04:03:18.033356+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:18.390590+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:04.154935+00:00"
         },
         "2025-06-08": {
             "day_of_week": "Sunday",
@@ -399,7 +399,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T04:03:22.549212+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:23.584154+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:08.072293+00:00"
         },
         "2025-06-09": {
             "day_of_week": "Monday",
@@ -417,7 +417,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T04:03:27.427750+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:27.276076+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:13.806006+00:00"
         },
         "2025-06-10": {
             "day_of_week": "Tuesday",
@@ -435,7 +435,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T04:03:32.420719+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:31.289731+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:17.777616+00:00"
         },
         "2025-06-11": {
             "day_of_week": "Wednesday",
@@ -507,7 +507,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T04:03:49.930566+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:49.234475+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:34.778324+00:00"
         },
         "2025-06-15": {
             "day_of_week": "Sunday",
@@ -525,7 +525,7 @@
                 "price": "\u20b93849"
             },
             "first_recorded_at": "2025-05-19T03:36:05.212847+00:00",
-            "last_confirmed_at": "2025-05-19T21:52:52.823624+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:38.340792+00:00"
         },
         "2025-06-16": {
             "day_of_week": "Monday",
@@ -543,7 +543,7 @@
                 "price_str": "\u20b93849"
             },
             "first_recorded_at": "2025-05-18T09:15:22.716936",
-            "last_confirmed_at": "2025-05-19T21:28:18.023396+00:00"
+            "last_confirmed_at": "2025-05-19T22:10:42.318920+00:00"
         },
         "2025-06-17": {
             "day_of_week": "Tuesday",
@@ -1409,7 +1409,7 @@
         "2025-05-19": {
             "day_of_week": "Monday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:02.103889+00:00",
+                "checked_at": "2025-05-19T22:08:41.789498+00:00",
                 "cheapest_flight_found": null,
                 "google_price_trend": "unknown",
                 "number_of_flights_found": 0,
@@ -3875,16 +3875,23 @@
                     "google_price_trend": "unknown",
                     "number_of_flights_found": 0,
                     "error_if_any": "AssertionError: 401 Result: {\"error\":\"no token provided\"}\n"
+                },
+                {
+                    "checked_at": "2025-05-19T22:08:41.789498+00:00",
+                    "cheapest_flight_found": null,
+                    "google_price_trend": "unknown",
+                    "number_of_flights_found": 0,
+                    "error_if_any": "AssertionError: 401 Result: {\"error\":\"no token provided\"}\n"
                 }
             ]
         },
         "2025-05-20": {
             "day_of_week": "Tuesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:02.633498+00:00",
+                "checked_at": "2025-05-19T22:08:42.387722+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 4006.0,
-                    "price_str": "\u20b94006",
+                    "numeric_price": 3849.0,
+                    "price_str": "\u20b93849",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
@@ -3894,11 +3901,11 @@
                         "duration": "2 hr 35 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b94006"
+                        "price": "\u20b93849"
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 493,
+                "number_of_flights_found": 463,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -3916,7 +3923,7 @@
                     "price_str": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-18T09:26:41.864739",
-                "last_confirmed_at": "2025-05-19T21:42:50.973493+00:00"
+                "last_confirmed_at": "2025-05-19T22:08:42.387722+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -6585,13 +6592,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 493,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:08:42.387722+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "9:30 PM on Tue, May 20",
+                            "arrival": "12:05 AM on Wed, May 21",
+                            "arrival_time_ahead": "+1",
+                            "duration": "2 hr 35 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 463,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-21": {
             "day_of_week": "Wednesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:05.982872+00:00",
+                "checked_at": "2025-05-19T22:08:48.162327+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4280.0,
                     "price_str": "\u20b94280",
@@ -6608,7 +6636,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 485,
+                "number_of_flights_found": 455,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -9295,30 +9323,51 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 485,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:08:48.162327+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4280.0,
+                        "price_str": "\u20b94280",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "Air India",
+                            "departure": "5:30 AM on Wed, May 21",
+                            "arrival": "7:55 AM on Wed, May 21",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 25 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94280"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 455,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-22": {
             "day_of_week": "Thursday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:10.808397+00:00",
+                "checked_at": "2025-05-19T22:08:53.111195+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 3849.0,
-                    "price_str": "\u20b93849",
+                    "numeric_price": 4006.0,
+                    "price_str": "\u20b94006",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
-                        "departure": "9:30 PM on Thu, May 22",
-                        "arrival": "12:05 AM on Fri, May 23",
+                        "departure": "11:30 PM on Thu, May 22",
+                        "arrival": "2:00 AM on Fri, May 23",
                         "arrival_time_ahead": "+1",
-                        "duration": "2 hr 35 min",
+                        "duration": "2 hr 30 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b93849"
+                        "price": "\u20b94006"
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 495,
+                "number_of_flights_found": 463,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -12005,13 +12054,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 495,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:08:53.111195+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "11:30 PM on Thu, May 22",
+                            "arrival": "2:00 AM on Fri, May 23",
+                            "arrival_time_ahead": "+1",
+                            "duration": "2 hr 30 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 463,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-23": {
             "day_of_week": "Friday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:14.253155+00:00",
+                "checked_at": "2025-05-19T22:08:56.447360+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4280.0,
                     "price_str": "\u20b94280",
@@ -12028,7 +12098,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 487,
+                "number_of_flights_found": 475,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -12046,7 +12116,7 @@
                     "price": "\u20b94280"
                 },
                 "first_recorded_at": "2025-05-19T18:42:50.262759+00:00",
-                "last_confirmed_at": "2025-05-19T21:51:14.253155+00:00"
+                "last_confirmed_at": "2025-05-19T22:08:56.447360+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -14715,13 +14785,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 487,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:08:56.447360+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4280.0,
+                        "price_str": "\u20b94280",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "Air India",
+                            "departure": "5:30 AM on Fri, May 23",
+                            "arrival": "7:55 AM on Fri, May 23",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 25 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94280"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 475,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-24": {
             "day_of_week": "Saturday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:17.789723+00:00",
+                "checked_at": "2025-05-19T22:09:00.635099+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4399.0,
                     "price_str": "\u20b94399",
@@ -14738,7 +14829,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 477,
+                "number_of_flights_found": 471,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -17425,13 +17516,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 477,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:00.635099+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4399.0,
+                        "price_str": "\u20b94399",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "9:30 PM on Sat, May 24",
+                            "arrival": "12:05 AM on Sun, May 25",
+                            "arrival_time_ahead": "+1",
+                            "duration": "2 hr 35 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94399"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 471,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-25": {
             "day_of_week": "Sunday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:21.922162+00:00",
+                "checked_at": "2025-05-19T22:09:03.489478+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4280.0,
                     "price_str": "\u20b94280",
@@ -20135,16 +20247,37 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 469,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:03.489478+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4280.0,
+                        "price_str": "\u20b94280",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "Air India",
+                            "departure": "5:30 AM on Sun, May 25",
+                            "arrival": "7:55 AM on Sun, May 25",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 25 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94280"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 469,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-26": {
             "day_of_week": "Monday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:26.728669+00:00",
+                "checked_at": "2025-05-19T22:09:07.596236+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 3849.0,
-                    "price_str": "\u20b93849",
+                    "numeric_price": 4006.0,
+                    "price_str": "\u20b94006",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
@@ -20154,11 +20287,11 @@
                         "duration": "2 hr 20 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b93849"
+                        "price": "\u20b94006"
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 469,
+                "number_of_flights_found": 477,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -22845,16 +22978,37 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 469,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:07.596236+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:15 PM on Mon, May 26",
+                            "arrival": "8:35 PM on Mon, May 26",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 20 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 477,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-27": {
             "day_of_week": "Tuesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:31.271645+00:00",
+                "checked_at": "2025-05-19T22:09:11.541396+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 3849.0,
-                    "price_str": "\u20b93849",
+                    "numeric_price": 4006.0,
+                    "price_str": "\u20b94006",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
@@ -22864,7 +23018,7 @@
                         "duration": "2 hr 5 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b93849"
+                        "price": "\u20b94006"
                     }
                 },
                 "google_price_trend": "low",
@@ -25555,16 +25709,37 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 479,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:11.541396+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Tue, May 27",
+                            "arrival": "8:05 AM on Tue, May 27",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 479,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-28": {
             "day_of_week": "Wednesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:36.579594+00:00",
+                "checked_at": "2025-05-19T22:09:15.373137+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 3849.0,
-                    "price_str": "\u20b93849",
+                    "numeric_price": 4006.0,
+                    "price_str": "\u20b94006",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
@@ -25574,7 +25749,7 @@
                         "duration": "2 hr 35 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b93849"
+                        "price": "\u20b94006"
                     }
                 },
                 "google_price_trend": "low",
@@ -28265,13 +28440,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 479,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:15.373137+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "9:30 PM on Wed, May 28",
+                            "arrival": "12:05 AM on Thu, May 29",
+                            "arrival_time_ahead": "+1",
+                            "duration": "2 hr 35 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 479,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-29": {
             "day_of_week": "Thursday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:41.329912+00:00",
+                "checked_at": "2025-05-19T22:09:19.732577+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -28306,7 +28502,7 @@
                     "price_str": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-18T09:13:27.237604",
-                "last_confirmed_at": "2025-05-19T21:51:41.329912+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:19.732577+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -30975,13 +31171,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 481,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:19.732577+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Thu, May 29",
+                            "arrival": "8:05 AM on Thu, May 29",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 481,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-30": {
             "day_of_week": "Friday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:45.017905+00:00",
+                "checked_at": "2025-05-19T22:09:22.835444+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4280.0,
                     "price_str": "\u20b94280",
@@ -30998,7 +31215,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 479,
+                "number_of_flights_found": 483,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -31016,7 +31233,7 @@
                     "price": "\u20b94280"
                 },
                 "first_recorded_at": "2025-05-19T18:43:24.522475+00:00",
-                "last_confirmed_at": "2025-05-19T21:51:45.017905+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:22.835444+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -33685,30 +33902,51 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 479,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:22.835444+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4280.0,
+                        "price_str": "\u20b94280",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "Air India",
+                            "departure": "5:30 AM on Fri, May 30",
+                            "arrival": "7:55 AM on Fri, May 30",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 25 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94280"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 483,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-05-31": {
             "day_of_week": "Saturday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:49.772733+00:00",
+                "checked_at": "2025-05-19T22:09:25.989832+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 4556.0,
-                    "price_str": "\u20b94556",
+                    "numeric_price": 4609.0,
+                    "price_str": "\u20b94609",
                     "flight_details": {
-                        "is_best": false,
+                        "is_best": true,
                         "name": "IndiGo",
-                        "departure": "8:00 PM on Sat, May 31",
-                        "arrival": "10:25 PM on Sat, May 31",
+                        "departure": "9:00 AM on Sat, May 31",
+                        "arrival": "11:30 AM on Sat, May 31",
                         "arrival_time_ahead": "",
-                        "duration": "2 hr 25 min",
+                        "duration": "2 hr 30 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b94556"
+                        "price": "\u20b94609"
                     }
                 },
-                "google_price_trend": "low",
-                "number_of_flights_found": 475,
+                "google_price_trend": "typical",
+                "number_of_flights_found": 473,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -36395,13 +36633,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 475,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:25.989832+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4609.0,
+                        "price_str": "\u20b94609",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "9:00 AM on Sat, May 31",
+                            "arrival": "11:30 AM on Sat, May 31",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 30 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94609"
+                        }
+                    },
+                    "google_price_trend": "typical",
+                    "number_of_flights_found": 473,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-01": {
             "day_of_week": "Sunday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:53.717875+00:00",
+                "checked_at": "2025-05-19T22:09:29.191498+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -36436,7 +36695,7 @@
                     "price_str": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-18T09:13:47.083910",
-                "last_confirmed_at": "2025-05-19T21:51:53.717875+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:29.191498+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -39105,13 +39364,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 501,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:29.191498+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Sun, Jun 1",
+                            "arrival": "8:05 AM on Sun, Jun 1",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 501,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-02": {
             "day_of_week": "Monday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:51:58.310192+00:00",
+                "checked_at": "2025-05-19T22:09:32.786734+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -39146,7 +39426,7 @@
                     "price_str": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-18T09:13:53.475065",
-                "last_confirmed_at": "2025-05-19T21:51:58.310192+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:32.786734+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -41815,13 +42095,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 487,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:32.786734+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Mon, Jun 2",
+                            "arrival": "8:05 AM on Mon, Jun 2",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 487,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-03": {
             "day_of_week": "Tuesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:03.737923+00:00",
+                "checked_at": "2025-05-19T22:09:36.557056+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3820.0,
                     "price_str": "\u20b93820",
@@ -41856,7 +42157,7 @@
                     "price": "\u20b93820"
                 },
                 "first_recorded_at": "2025-05-19T10:40:26.183072+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:03.737923+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:36.557056+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -44525,13 +44826,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 485,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:36.557056+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3820.0,
+                        "price_str": "\u20b93820",
+                        "flight_details": {
+                            "is_best": false,
+                            "name": "IndiGo",
+                            "departure": "6:15 PM on Tue, Jun 3",
+                            "arrival": "8:35 PM on Tue, Jun 3",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 20 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93820"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 485,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-04": {
             "day_of_week": "Wednesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:07.972793+00:00",
+                "checked_at": "2025-05-19T22:09:40.937034+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4006.0,
                     "price_str": "\u20b94006",
@@ -47235,13 +47557,34 @@
                     "google_price_trend": "typical",
                     "number_of_flights_found": 491,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:40.937034+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Wed, Jun 4",
+                            "arrival": "8:05 AM on Wed, Jun 4",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "typical",
+                    "number_of_flights_found": 491,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-05": {
             "day_of_week": "Thursday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:11.563496+00:00",
+                "checked_at": "2025-05-19T22:09:46.077411+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -47258,7 +47601,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 491,
+                "number_of_flights_found": 475,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -47276,7 +47619,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T04:03:09.040346+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:11.563496+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:46.077411+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -49945,13 +50288,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 491,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:46.077411+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "12:00 PM on Thu, Jun 5",
+                            "arrival": "2:25 PM on Thu, Jun 5",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 25 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 475,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-06": {
             "day_of_week": "Friday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:14.826253+00:00",
+                "checked_at": "2025-05-19T22:09:50.208559+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -49968,7 +50332,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 513,
+                "number_of_flights_found": 493,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -49986,7 +50350,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T03:35:24.548493+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:14.826253+00:00"
+                "last_confirmed_at": "2025-05-19T22:09:50.208559+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -52641,13 +53005,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 513,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:09:50.208559+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Fri, Jun 6",
+                            "arrival": "8:05 AM on Fri, Jun 6",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 493,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-07": {
             "day_of_week": "Saturday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:18.390590+00:00",
+                "checked_at": "2025-05-19T22:10:04.154935+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -52664,7 +53049,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 511,
+                "number_of_flights_found": 487,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -52682,7 +53067,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T04:03:18.033356+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:18.390590+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:04.154935+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -55351,13 +55736,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 511,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:04.154935+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Sat, Jun 7",
+                            "arrival": "8:05 AM on Sat, Jun 7",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 487,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-08": {
             "day_of_week": "Sunday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:23.584154+00:00",
+                "checked_at": "2025-05-19T22:10:08.072293+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -55374,7 +55780,7 @@
                     }
                 },
                 "google_price_trend": "low",
-                "number_of_flights_found": 503,
+                "number_of_flights_found": 483,
                 "error_if_any": null
             },
             "lowest_price_ever_recorded": {
@@ -55392,7 +55798,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T04:03:22.549212+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:23.584154+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:08.072293+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -58061,13 +58467,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 503,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:08.072293+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Sun, Jun 8",
+                            "arrival": "8:05 AM on Sun, Jun 8",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 483,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-09": {
             "day_of_week": "Monday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:27.276076+00:00",
+                "checked_at": "2025-05-19T22:10:13.806006+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -58102,7 +58529,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T04:03:27.427750+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:27.276076+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:13.806006+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -60771,13 +61198,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 471,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:13.806006+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Mon, Jun 9",
+                            "arrival": "8:05 AM on Mon, Jun 9",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 471,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-10": {
             "day_of_week": "Tuesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:31.289731+00:00",
+                "checked_at": "2025-05-19T22:10:17.777616+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -60812,7 +61260,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T04:03:32.420719+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:31.289731+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:17.777616+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -63481,13 +63929,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 457,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:17.777616+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Tue, Jun 10",
+                            "arrival": "8:05 AM on Tue, Jun 10",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 457,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-11": {
             "day_of_week": "Wednesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:35.632844+00:00",
+                "checked_at": "2025-05-19T22:10:21.259332+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -66191,16 +66660,37 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 467,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:21.259332+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Wed, Jun 11",
+                            "arrival": "8:05 AM on Wed, Jun 11",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 467,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-12": {
             "day_of_week": "Thursday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:40.476744+00:00",
+                "checked_at": "2025-05-19T22:10:25.655752+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 3849.0,
-                    "price_str": "\u20b93849",
+                    "numeric_price": 4006.0,
+                    "price_str": "\u20b94006",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
@@ -66210,10 +66700,10 @@
                         "duration": "2 hr 5 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b93849"
+                        "price": "\u20b94006"
                     }
                 },
-                "google_price_trend": "low",
+                "google_price_trend": "typical",
                 "number_of_flights_found": 467,
                 "error_if_any": null
             },
@@ -68901,13 +69391,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 467,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:25.655752+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Thu, Jun 12",
+                            "arrival": "8:05 AM on Thu, Jun 12",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "typical",
+                    "number_of_flights_found": 467,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-13": {
             "day_of_week": "Friday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:44.620111+00:00",
+                "checked_at": "2025-05-19T22:10:30.167000+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4006.0,
                     "price_str": "\u20b94006",
@@ -71597,13 +72108,34 @@
                     "google_price_trend": "typical",
                     "number_of_flights_found": 487,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:30.167000+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Fri, Jun 13",
+                            "arrival": "8:05 AM on Fri, Jun 13",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "typical",
+                    "number_of_flights_found": 487,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-14": {
             "day_of_week": "Saturday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:49.234475+00:00",
+                "checked_at": "2025-05-19T22:10:34.778324+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -71638,7 +72170,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T04:03:49.930566+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:49.234475+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:34.778324+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -74307,13 +74839,34 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 487,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:34.778324+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "6:00 AM on Sat, Jun 14",
+                            "arrival": "8:05 AM on Sat, Jun 14",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 5 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 487,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-15": {
             "day_of_week": "Sunday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:52.823624+00:00",
+                "checked_at": "2025-05-19T22:10:38.340792+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 3849.0,
                     "price_str": "\u20b93849",
@@ -74348,7 +74901,7 @@
                     "price": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-19T03:36:05.212847+00:00",
-                "last_confirmed_at": "2025-05-19T21:52:52.823624+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:38.340792+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -77017,16 +77570,37 @@
                     "google_price_trend": "low",
                     "number_of_flights_found": 481,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:38.340792+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "12:00 PM on Sun, Jun 15",
+                            "arrival": "2:25 PM on Sun, Jun 15",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 25 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 481,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-16": {
             "day_of_week": "Monday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:52:57.683142+00:00",
+                "checked_at": "2025-05-19T22:10:42.318920+00:00",
                 "cheapest_flight_found": {
-                    "numeric_price": 4006.0,
-                    "price_str": "\u20b94006",
+                    "numeric_price": 3849.0,
+                    "price_str": "\u20b93849",
                     "flight_details": {
                         "is_best": true,
                         "name": "IndiGo",
@@ -77036,10 +77610,10 @@
                         "duration": "2 hr 20 min",
                         "stops": 0,
                         "delay": null,
-                        "price": "\u20b94006"
+                        "price": "\u20b93849"
                     }
                 },
-                "google_price_trend": "typical",
+                "google_price_trend": "low",
                 "number_of_flights_found": 467,
                 "error_if_any": null
             },
@@ -77058,7 +77632,7 @@
                     "price_str": "\u20b93849"
                 },
                 "first_recorded_at": "2025-05-18T09:15:22.716936",
-                "last_confirmed_at": "2025-05-19T21:28:18.023396+00:00"
+                "last_confirmed_at": "2025-05-19T22:10:42.318920+00:00"
             },
             "hourly_observations_history": [
                 {
@@ -79727,13 +80301,34 @@
                     "google_price_trend": "typical",
                     "number_of_flights_found": 467,
                     "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:42.318920+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 3849.0,
+                        "price_str": "\u20b93849",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "7:45 AM on Mon, Jun 16",
+                            "arrival": "10:05 AM on Mon, Jun 16",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 20 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b93849"
+                        }
+                    },
+                    "google_price_trend": "low",
+                    "number_of_flights_found": 467,
+                    "error_if_any": null
                 }
             ]
         },
         "2025-06-17": {
             "day_of_week": "Tuesday",
             "latest_check_snapshot": {
-                "checked_at": "2025-05-19T21:53:01.470326+00:00",
+                "checked_at": "2025-05-19T22:10:46.349728+00:00",
                 "cheapest_flight_found": {
                     "numeric_price": 4006.0,
                     "price_str": "\u20b94006",
@@ -81327,6 +81922,27 @@
                 },
                 {
                     "checked_at": "2025-05-19T21:53:01.470326+00:00",
+                    "cheapest_flight_found": {
+                        "numeric_price": 4006.0,
+                        "price_str": "\u20b94006",
+                        "flight_details": {
+                            "is_best": true,
+                            "name": "IndiGo",
+                            "departure": "7:45 AM on Tue, Jun 17",
+                            "arrival": "10:05 AM on Tue, Jun 17",
+                            "arrival_time_ahead": "",
+                            "duration": "2 hr 20 min",
+                            "stops": 0,
+                            "delay": null,
+                            "price": "\u20b94006"
+                        }
+                    },
+                    "google_price_trend": "typical",
+                    "number_of_flights_found": 457,
+                    "error_if_any": null
+                },
+                {
+                    "checked_at": "2025-05-19T22:10:46.349728+00:00",
                     "cheapest_flight_found": {
                         "numeric_price": 4006.0,
                         "price_str": "\u20b94006",
