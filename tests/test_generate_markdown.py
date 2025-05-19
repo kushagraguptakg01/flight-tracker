@@ -219,17 +219,21 @@ def test_generate_route_markdown_with_quick_view_and_current_price_data(tmp_path
     assert "| 2024-02-01   | Thu | ₹3,000 | ₹3,200 | 08:00 AM → 10:00 AM | QuickAir" in md
     assert "2024-01-10 10:30:00 IST | 📊 (Typical) |" in md # Check trend as well
 
-@freeze_time("2024-01-15") 
+@freeze_time("2024-01-15")
 def test_generate_route_markdown_with_tracked_dates(tmp_path):
     today = date.today()
-    data = json.loads(json.dumps(SAMPLE_JSON_STRUCTURE)) 
+    data = json.loads(json.dumps(SAMPLE_JSON_STRUCTURE))
     data["tracked_flight_dates"] = {
-        "2024-02-10": { 
+        "2024-02-10": {
             "day_of_week": "Saturday",
-            "latest_check_snapshot": {"google_price_trend": "high"},
+            # To test the "Current Price" column properly in "Last X Days",
+            # this latest_check_snapshot should ideally contain a "cheapest_flight_found"
+            # or "error_if_any" or "number_of_flights_found".
+            # For this specific test, we'll keep it as is and expect "No flights".
+            "latest_check_snapshot": {"google_price_trend": "high"}, # No cheapest_flight_found here
             "hourly_observations_history": [
                 {"checked_at": "2024-01-10T12:00:00Z", "cheapest_flight_found": {"numeric_price": 4000.0, "flight_details": {"name": "HistAir1", "departure_time": "1PM", "arrival_time": "3PM", "duration_str": "2h", "stops": 1, "arrival_time_ahead": ""}}},
-                {"checked_at": "2024-01-11T12:00:00Z", "cheapest_flight_found": {"numeric_price": 0.0, "flight_details": {"name": "ZeroHist"}}}, # Will be ignored
+                {"checked_at": "2024-01-11T12:00:00Z", "cheapest_flight_found": {"numeric_price": 0.0, "flight_details": {"name": "ZeroHist"}}}, # Will be ignored by get_lowest_price_and_details_in_period
                 {"checked_at": "2024-01-01T12:00:00Z", "cheapest_flight_found": {"numeric_price": 3000.0, "flight_details": {"name": "OldHist"}}} # Outside 7/14 day window
             ]
         }
@@ -239,14 +243,15 @@ def test_generate_route_markdown_with_tracked_dates(tmp_path):
     md = generate_route_markdown(str(data_file), today)
 
     assert "### Lowest Prices Observed in Last 7 Days (For This Route)" in md
-    assert "| 2024-02-10 | Sat | ₹4,000 | 1PM → 3PM | HistAir1" in md
-    assert "2024-01-10 17:30:00 IST |" in md 
-    assert "ZeroHist" not in md 
-    assert "OldHist" not in md 
+    # Corrected assertion for the table row, including the "Current Price" column
+    # | Travel Date | Day | Lowest in Period | Current Price | Dep → Arr (Details) | Airline | ...
+    assert "| 2024-02-10 | Sat | ₹4,000 | No flights | 1PM → 3PM | HistAir1" in md
+    assert "2024-01-10 17:30:00 IST |" in md
+    assert "ZeroHist" not in md
+    assert "OldHist" not in md
 
     assert "### Lowest Prices Observed in Last 14 Days (For This Route)" in md
-    assert "| 2024-02-10 | Sat | ₹4,000 | 1PM → 3PM | HistAir1" in md
-
+    assert "| 2024-02-10 | Sat | ₹4,000 | No flights | 1PM → 3PM | HistAir1" in md
 
 # --- Tests for generate_master_markdown ---
 

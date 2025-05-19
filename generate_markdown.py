@@ -1,11 +1,12 @@
 # /generate_markdown.py
 import json
-from datetime import datetime, date, timedelta, timezone 
+from datetime import datetime, date, timedelta, timezone
 import os
 import sys
-import pytz 
+import pytz
 
-# --- Helper Functions (format_price, get_price_trend_emoji, extract_time, format_iso_timestamp_to_ist_string) ---.
+# --- Helper Functions (format_price, get_price_trend_emoji, extract_time, format_iso_timestamp_to_ist_string) ---
+# ... (These functions remain the same as your latest version) ...
 def format_price(price_value):
     if price_value is None:
         return "N/A"
@@ -18,7 +19,7 @@ def format_price(price_value):
 
 def get_price_trend_emoji(trend_str):
     if trend_str is None or trend_str == "N/A" or trend_str == "unknown":
-        return " " 
+        return " "
     trend_str = str(trend_str).lower()
     if "low" in trend_str: return "📉 (Low)"
     if "high" in trend_str: return "📈 (High)"
@@ -26,7 +27,7 @@ def get_price_trend_emoji(trend_str):
     return f"{trend_str.capitalize()}"
 
 def extract_time(time_str_full):
-    if not time_str_full: return "N/A" 
+    if not time_str_full: return "N/A"
     if " on " in time_str_full:
         return time_str_full.split(" on ")[0]
     return time_str_full
@@ -50,9 +51,8 @@ def format_iso_timestamp_to_ist_string(iso_timestamp_str, include_time=True):
         print(f"Warning: Could not parse or convert timestamp '{iso_timestamp_str}': {e}")
         return "N/A"
 
-# --- get_lowest_price_and_details_in_period (remains the same, for "Last X Days" tables) ---
 def get_lowest_price_and_details_in_period(observations_history, period_days, today_date):
-    # ... (This function remains the same as your latest version, which excludes 0.0 prices) ...
+    # ... (This function remains the same - finds lowest *positive* price in period) ...
     if not observations_history:
         return None, None, None
     min_price_in_period = float('inf')
@@ -75,7 +75,7 @@ def get_lowest_price_and_details_in_period(observations_history, period_days, to
                 cheapest_flight_in_check = obs.get("cheapest_flight_found")
                 if cheapest_flight_in_check:
                     numeric_price = cheapest_flight_in_check.get("numeric_price")
-                    if numeric_price is not None and numeric_price > 0 and numeric_price < min_price_in_period:
+                    if numeric_price is not None and numeric_price > 0 and numeric_price < min_price_in_period: # Positive prices only
                         min_price_in_period = numeric_price
                         best_flight_details = cheapest_flight_in_check.get("flight_details")
                         observation_timestamp_of_best_price_utc_iso = check_timestamp_str
@@ -108,108 +108,120 @@ def generate_route_markdown(json_filepath, today_date):
     md_section += f"_Last data update for this route: {last_run_display_ist}_\n\n"
 
     quick_view_data = data.get("lowest_price_quick_view", {})
-    tracked_dates_data = data.get("tracked_flight_dates", {}) # Used for trend and new column
+    tracked_dates_data = data.get("tracked_flight_dates", {})
 
     # --- Main Table: Overall Lowest Prices Ever Recorded ---
     md_section += "### Current Overall Lowest Prices by Travel Date\n"
     if not quick_view_data:
         md_section += "_No overall lowest price data available._\n"
     else:
-        # --- MODIFICATION: Added "Current Price" column header ---
         md_section += "| Flight Date   | Day | Lowest Ever | Current Price | Dep → Arr (Details) | Airline | Duration | Stops | Found On (IST)    | Trend |\n"
         md_section += "|-----------------|-----|-------------|---------------|-----------------------|---------|----------|-------|-------------------|-------|\n"
         sorted_overall_dates = sorted(quick_view_data.keys())
-        
         for flight_date_str in sorted_overall_dates:
-            details = quick_view_data[flight_date_str] # Overall lowest details
+            details = quick_view_data[flight_date_str]
             day_full = details.get("day_of_week", "N/A")
             day_short = day_full[:3] if day_full != "N/A" else "N/A"
-            
-            # Overall lowest price (from quick_view)
             overall_lowest_price = details.get("numeric_price")
-            flight_info = details.get("flight_details") # Details of the overall lowest flight
+            flight_info_overall = details.get("flight_details")
             error_msg = details.get("error")
             found_on_ist = format_iso_timestamp_to_ist_string(details.get("first_recorded_at"))
-            
             overall_lowest_price_disp = format_price(overall_lowest_price)
             flight_desc, airline, duration, stops_val = "N/A", "N/A", "N/A", "N/A"
 
-            if error_msg: # If the overall lowest entry is an error
+            if error_msg:
                 flight_desc = f"<span style='color:orange;'>Error: {error_msg}</span>"
-            elif flight_info:
-                airline = flight_info.get("name", "N/A")
-                dep = extract_time(flight_info.get("departure_time", "N/A"))
-                arr = extract_time(flight_info.get("arrival_time", "N/A"))
-                arr_ahead = flight_info.get("arrival_time_ahead", "")
+            elif flight_info_overall:
+                airline = flight_info_overall.get("name", "N/A")
+                dep = extract_time(flight_info_overall.get("departure_time", "N/A"))
+                arr = extract_time(flight_info_overall.get("arrival_time", "N/A"))
+                arr_ahead = flight_info_overall.get("arrival_time_ahead", "")
                 flight_desc = f"{dep} → {arr}{arr_ahead if arr_ahead else ''}"
-                duration = flight_info.get("duration_str", "N/A")
-                stops_val = str(flight_info.get("stops", "N/A"))
-            elif overall_lowest_price is not None: 
+                duration = flight_info_overall.get("duration_str", "N/A")
+                stops_val = str(flight_info_overall.get("stops", "N/A"))
+            elif overall_lowest_price is not None:
                 flight_desc = "_Details unavailable_"
                 if overall_lowest_price == 0.0:
                     flight_desc = "<span style='color:grey;'>_Likely Canceled/Error_</span>"
-            else: 
+            else:
                 flight_desc = "_No data found_"
 
-            # --- MODIFICATION: Get current price from latest_check_snapshot ---
             current_price_latest_check_disp = "N/A"
-            trend_val = " " # Default trend
-            
+            trend_val = " "
             if flight_date_str in tracked_dates_data:
                 date_tracking_info = tracked_dates_data[flight_date_str]
                 latest_snap = date_tracking_info.get("latest_check_snapshot", {})
                 trend_val = get_price_trend_emoji(latest_snap.get("google_price_trend"))
-                
                 if latest_snap:
                     current_cheapest_flight_info = latest_snap.get("cheapest_flight_found")
                     if current_cheapest_flight_info:
                         current_numeric_price = current_cheapest_flight_info.get("numeric_price")
                         current_price_latest_check_disp = format_price(current_numeric_price)
-                        # Optionally, you could also display details of this current flight if it's different
-                        # from the overall lowest, but that might make the table too wide.
                     elif latest_snap.get("error_if_any"):
                         current_price_latest_check_disp = "<span style='color:orange;'>Error</span>"
                     elif latest_snap.get("number_of_flights_found", 0) == 0:
-                         current_price_latest_check_disp = "No flights"
-            
-            # --- MODIFICATION: Added current_price_latest_check_disp to the row ---
+                        current_price_latest_check_disp = "No flights"
             md_section += f"| {flight_date_str}   | {day_short} | {overall_lowest_price_disp} | {current_price_latest_check_disp} | {flight_desc} | {airline} | {duration} | {stops_val} | {found_on_ist} | {trend_val} |\n"
     md_section += "\n"
 
-    # --- Recently Observed Prices Tables (remains the same) ---
-    if tracked_dates_data: 
+    # --- Recently Observed Prices Tables ---
+    if tracked_dates_data:
         for period_days, period_title_suffix in [(7, "Last 7 Days"), (14, "Last 14 Days")]:
-            # ... (This whole section for "Last X Days" remains unchanged) ...
             md_section += f"### Lowest Prices Observed in {period_title_suffix} (For This Route)\n"
             md_section += "_For each travel date, shows the cheapest *positive* price seen if an observation for that travel date occurred in this period._\n"
+            
             recent_observations_table_content = ""
-            table_header = "| Travel Date | Day | Price | Dep → Arr (Details) | Airline | Duration | Stops | Observed On (IST) |\n"
-            table_separator = "|-------------|-----|-------|-----------------------|---------|----------|-------|-------------------|\n"
+            # --- MODIFICATION: Added "Current Price" column header to Last X Days tables ---
+            table_header = "| Travel Date | Day | Lowest in Period | Current Price | Dep → Arr (Details) | Airline | Duration | Stops | Observed On (IST) |\n"
+            table_separator = "|-------------|-----|------------------|---------------|-----------------------|---------|----------|-------|-------------------|\n"
+            
             rows_for_period_table = 0
             sorted_tracked_dates_local = sorted(tracked_dates_data.keys())
+
             for flight_date_str_local in sorted_tracked_dates_local:
                 date_specific_tracking_info = tracked_dates_data[flight_date_str_local]
                 day_full_local = date_specific_tracking_info.get("day_of_week", "N/A")
                 day_short_local = day_full_local[:3] if day_full_local != "N/A" else "N/A"
+                
                 observations_history = date_specific_tracking_info.get("hourly_observations_history", [])
-                price_local, flight_info_local, obs_date_ist_str_local = get_lowest_price_and_details_in_period(
+                
+                # This gets the lowest *positive* price observed in the period
+                lowest_hist_price, flight_info_hist, obs_date_ist_str_hist = get_lowest_price_and_details_in_period(
                     observations_history, period_days, today_date
                 )
-                if price_local is not None:
+
+                if lowest_hist_price is not None: # If a positive historical low was found in the period
                     rows_for_period_table += 1
-                    price_disp_local = format_price(price_local)
-                    flight_desc_local, airline_local, duration_local, stops_val_local = "N/A", "N/A", "N/A", "N/A"
-                    if flight_info_local:
-                        airline_local = flight_info_local.get("name", "N/A")
-                        dep_local = extract_time(flight_info_local.get("departure_time", "N/A"))
-                        arr_local = extract_time(flight_info_local.get("arrival_time", "N/A"))
-                        arr_ahead_local = flight_info_local.get("arrival_time_ahead", "")
-                        flight_desc_local = f"{dep_local} → {arr_local}{arr_ahead_local if arr_ahead_local else ''}"
-                        duration_local = flight_info_local.get("duration_str", "N/A")
-                        stops_val_local = str(flight_info_local.get("stops", "N/A"))
+                    lowest_hist_price_disp = format_price(lowest_hist_price)
+                    flight_desc_hist, airline_hist, duration_hist, stops_val_hist = "N/A", "N/A", "N/A", "N/A"
+
+                    if flight_info_hist:
+                        airline_hist = flight_info_hist.get("name", "N/A")
+                        dep_hist = extract_time(flight_info_hist.get("departure_time", "N/A"))
+                        arr_hist = extract_time(flight_info_hist.get("arrival_time", "N/A"))
+                        arr_ahead_hist = flight_info_hist.get("arrival_time_ahead", "")
+                        flight_desc_hist = f"{dep_hist} → {arr_hist}{arr_ahead_hist if arr_ahead_hist else ''}"
+                        duration_hist = flight_info_hist.get("duration_str", "N/A")
+                        stops_val_hist = str(flight_info_hist.get("stops", "N/A"))
                     else: 
-                        flight_desc_local = "_Details N/A_"
-                    recent_observations_table_content += f"| {flight_date_str_local} | {day_short_local} | {price_disp_local} | {flight_desc_local} | {airline_local} | {duration_local} | {stops_val_local} | {obs_date_ist_str_local} |\n"
+                        flight_desc_hist = "_Details N/A_"
+                    
+                    # --- MODIFICATION: Get current price for THIS travel date from its latest_check_snapshot ---
+                    current_price_for_this_travel_date_disp = "N/A"
+                    latest_snap_for_travel_date = date_specific_tracking_info.get("latest_check_snapshot", {})
+                    if latest_snap_for_travel_date:
+                        current_cheapest_info = latest_snap_for_travel_date.get("cheapest_flight_found")
+                        if current_cheapest_info:
+                            current_price_val = current_cheapest_info.get("numeric_price")
+                            current_price_for_this_travel_date_disp = format_price(current_price_val) # format_price handles None/0.0
+                        elif latest_snap_for_travel_date.get("error_if_any"):
+                            current_price_for_this_travel_date_disp = "<span style='color:orange;'>Error</span>"
+                        elif latest_snap_for_travel_date.get("number_of_flights_found", 0) == 0:
+                            current_price_for_this_travel_date_disp = "No flights"
+
+                    # --- MODIFICATION: Added current_price_for_this_travel_date_disp to the row ---
+                    recent_observations_table_content += f"| {flight_date_str_local} | {day_short_local} | {lowest_hist_price_disp} | {current_price_for_this_travel_date_disp} | {flight_desc_hist} | {airline_hist} | {duration_hist} | {stops_val_hist} | {obs_date_ist_str_hist} |\n"
+
             if rows_for_period_table > 0:
                 md_section += table_header + table_separator + recent_observations_table_content
             else:
@@ -217,7 +229,6 @@ def generate_route_markdown(json_filepath, today_date):
             md_section += "\n"
             
     return md_section
-
 
 def generate_master_markdown(json_files, output_md_file):
     # ... (This function remains the same) ...
