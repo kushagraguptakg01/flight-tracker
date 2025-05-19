@@ -46,11 +46,11 @@ def send_telegram_notification_for_new_lowest(origin, destination, flight_date_s
     esc_new_price = escape_markdown_v2(str(new_price))
     esc_old_price_text = 'N/A' if old_price == float('inf') else str(old_price)
     esc_old_price = escape_markdown_v2(esc_old_price_text)
-    esc_dep_time = escape_markdown_v2(str(flight_details_dict.get("departure_time", "N/A")))
-    esc_arr_time = escape_markdown_v2(str(flight_details_dict.get("arrival_time", "N/A")))
+    esc_dep_time = escape_markdown_v2(str(flight_details_dict.get("departure", "N/A")))
+    esc_arr_time = escape_markdown_v2(str(flight_details_dict.get("arrival", "N/A")))
     esc_airline = escape_markdown_v2(str(flight_details_dict.get("name", "N/A")))
     esc_stops = escape_markdown_v2(str(flight_details_dict.get("stops", "N/A")))
-    esc_duration = escape_markdown_v2(str(flight_details_dict.get("duration_str", "N/A")))
+    esc_duration = escape_markdown_v2(str(flight_details_dict.get("duration", "N/A")))
     github_link_url = f"https://github.com/{GITHUB_REPO_NAME}"
     link_display_text = "full summary on GitHub"
     message = (
