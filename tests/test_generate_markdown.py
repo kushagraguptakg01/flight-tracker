@@ -158,25 +158,66 @@ def test_generate_route_markdown_empty_data(tmp_path):
 @freeze_time("2024-01-15")
 def test_generate_route_markdown_with_quick_view_data(tmp_path):
     today = date.today()
-    data = json.loads(json.dumps(SAMPLE_JSON_STRUCTURE)) 
+    data = json.loads(json.dumps(SAMPLE_JSON_STRUCTURE))
     data["lowest_price_quick_view"] = {
         "2024-02-01": {
             "day_of_week": "Thursday", "numeric_price": 3000.0,
             "flight_details": {"name": "QuickAir", "departure_time": "08:00 AM", "arrival_time": "10:00 AM", "duration_str": "2h", "stops": 0, "arrival_time_ahead": ""},
             "first_recorded_at": "2024-01-10T05:00:00Z"
         },
-        "2024-02-02": { 
-            "day_of_week": "Friday", "numeric_price": 0.0, # 0.0 price in quick_view
+        "2024-02-02": { # Test for 0.0 price in quick view
+            "day_of_week": "Friday", "numeric_price": 0.0,
             "flight_details": {"name": "ZeroQuick", "departure_time": "N/A", "arrival_time": "N/A", "duration_str": "N/A", "stops": "Unknown", "arrival_time_ahead": ""},
             "first_recorded_at": "2024-01-11T06:00:00Z"
         }
     }
+    # IMPORTANT: For this test to accurately check the "Current Price" column,
+    # you might also want to add a corresponding entry in data["tracked_flight_dates"]
+    # if you want to test a scenario where "Current Price" is populated.
+    # If data["tracked_flight_dates"] remains empty for "2024-02-01",
+    # then "Current Price" for that date will be "N/A".
+
     data_file = tmp_path / "quick.json"
     data_file.write_text(json.dumps(data))
     md = generate_route_markdown(str(data_file), today)
-    assert "| 2024-02-01   | Thu | ₹3,000 | 08:00 AM → 10:00 AM | QuickAir" in md
-    assert "| 2024-02-02   | Fri | <span style='color:grey;'>₹0</span> | N/A → N/A | ZeroQuick" in md 
-    assert "2024-01-10 10:30:00 IST |" in md
+
+    # Corrected assertion: includes the "N/A" for the new "Current Price" column
+    assert "| 2024-02-01   | Thu | ₹3,000 | N/A | 08:00 AM → 10:00 AM | QuickAir" in md
+    assert "| 2024-02-02   | Fri | <span style='color:grey;'>₹0</span> | N/A | N/A → N/A | ZeroQuick" in md # Current Price will also be N/A
+    assert "2024-01-10 10:30:00 IST |" in md # Found on date for quick view
+
+@freeze_time("2024-01-15")
+def test_generate_route_markdown_with_quick_view_and_current_price_data(tmp_path):
+    today = date.today()
+    data = json.loads(json.dumps(SAMPLE_JSON_STRUCTURE))
+    data["lowest_price_quick_view"] = {
+        "2024-02-01": {
+            "day_of_week": "Thursday", "numeric_price": 3000.0, # Lowest Ever
+            "flight_details": {"name": "QuickAir", "departure_time": "08:00 AM", "arrival_time": "10:00 AM", "duration_str": "2h", "stops": 0, "arrival_time_ahead": ""},
+            "first_recorded_at": "2024-01-10T05:00:00Z"
+        }
+    }
+    data["tracked_flight_dates"] = { # Add this to test the "Current Price" column
+        "2024-02-01": {
+            "day_of_week": "Thursday", # Should match or be consistent
+            "latest_check_snapshot": {
+                "google_price_trend": "typical",
+                "cheapest_flight_found": {
+                    "numeric_price": 3200.0, # Current price example
+                    "flight_details": {"name": "CurrentDayAir", "departure_time": "09:00 AM", "arrival_time": "11:00 AM", "duration_str": "2h", "stops": 0, "arrival_time_ahead": ""}
+                }
+            },
+            "hourly_observations_history": [] # Can be empty for this specific test focus
+        }
+    }
+
+    data_file = tmp_path / "quick_and_current.json"
+    data_file.write_text(json.dumps(data))
+    md = generate_route_markdown(str(data_file), today)
+
+    # Now assert with the populated "Current Price"
+    assert "| 2024-02-01   | Thu | ₹3,000 | ₹3,200 | 08:00 AM → 10:00 AM | QuickAir" in md
+    assert "2024-01-10 10:30:00 IST | 📊 (Typical) |" in md # Check trend as well
 
 @freeze_time("2024-01-15") 
 def test_generate_route_markdown_with_tracked_dates(tmp_path):
