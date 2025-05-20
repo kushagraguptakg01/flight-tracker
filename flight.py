@@ -68,7 +68,6 @@ def send_telegram_notification_for_new_lowest(origin, destination, flight_date_s
         f"*Flight Details:*\n"
         f"  Airline: {esc_airline}\n  Departure: {esc_dep_time}\n  Arrival: {esc_arr_time}\n"
         f"  Duration: {esc_duration}\n  Stops: {esc_stops}\n\n"
-        # f"Check the [{link_display_text}]({github_link_url}) for more details\\." # Still commented
     )
     url_tg_api = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
@@ -147,7 +146,23 @@ def fetch_single_date_flights(target_date_obj: date, origin: str, dest: str, adu
         # Assuming fast-flights returns Result object with a 'flights' list
         # and each flight object in that list has a 'delay' attribute.
         result: Result = get_flights_from_filter(flight_filter, currency="INR", mode="fallback")
-        print(f"  Found {len(result.flights)} flights. Trend: {result.current_price}")
+        
+        # MODIFICATION: Filter out cancelled flights from the result object
+        valid_flights = []
+        if result and result.flights:
+            for flight in result.flights:
+                delay_info = getattr(flight, 'delay', None) # Get the delay attribute
+                # Check if delay_info is a string and contains "cancel" (case-insensitive)
+                if isinstance(delay_info, str) and "cancel" in delay_info.lower():
+                    print(f"  -> Discarding cancelled flight: {getattr(flight, 'name', 'Unknown Flight')} on {date_str}")
+                    continue # Skip this flight
+                valid_flights.append(flight)
+        
+        # Update the result object's flights list
+        if result:
+            result.flights = valid_flights # Now result.flights only contains non-cancelled flights
+
+        print(f"  Found {len(result.flights if result else [])} non-cancelled flights. Trend: {result.current_price if result else 'N/A'}")
         return {"result_obj": result, "day_of_week": day_of_week, "error": None}
     except Exception as e:
         error_type = type(e).__name__
