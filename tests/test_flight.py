@@ -299,7 +299,9 @@ def test_process_route_data_first_run_new_lowest(
     assert saved_data["lowest_price_quick_view"][flight_date_str]["numeric_price"] == 3000.0
 
     mock_send_new_lowest_notif.assert_called_once_with(
-        "DEL", "BOM", flight_date_str, "Monday", 3000.0, float('inf'), ANY
+        "DEL", "BOM", flight_date_str, "Monday", 3000.0, float('inf'), ANY,
+        bot_token_override=None,  # Add this
+        chat_id_override=None     # Add this
     )
     mock_send_drop_notif.assert_not_called()
 
@@ -361,7 +363,9 @@ def test_process_route_data_price_drop_not_overall_lowest(
     assert saved_data["lowest_price_quick_view"][flight_date_str]["numeric_price"] == 2800.0
 
     mock_send_drop_notif.assert_called_once_with(
-        "DEL", "BOM", flight_date_str, "Tuesday", 3000.0, 3200.0, ANY
+        "DEL", "BOM", flight_date_str, "Tuesday", 3000.0, 3200.0, ANY,
+        bot_token_override=None,  # Add this
+        chat_id_override=None     # Add this
     )
     mock_send_new_lowest_notif.assert_not_called()
 

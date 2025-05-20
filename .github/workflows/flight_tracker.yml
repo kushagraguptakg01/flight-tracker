@@ -38,6 +38,8 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SECONDARY_TELEGRAM_BOT_TOKEN: ${{ secrets.SECONDARY_TELEGRAM_BOT_TOKEN }}
+          SECONDARY_TELEGRAM_CHAT_ID: ${{ secrets.SECONDARY_TELEGRAM_CHAT_ID }}
           GITHUB_REPOSITORY: ${{ github.repository }} # Used by flight.py for link in notification
         run: python flight.py
 
