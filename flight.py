@@ -11,7 +11,8 @@ import requests
 ROUTES = [
     {"origin": "HYD", "destination": "DEL", "label": "HYD_to_DEL"},
     {"origin": "DEL", "destination": "HYD", "label": "DEL_to_HYD"},
-    {"origin": "DEL", "destination": "BLR", "label": "DEL_to_BLR"}
+    {"origin": "DEL", "destination": "BLR", "label": "DEL_to_BLR"},
+    {"origin": "BLR", "destination": "DEL", "label": "BLR_to_DEL"}
 ]
 NUM_ADULTS = 1
 MIN_REQUEST_DELAY = 1.0
@@ -43,6 +44,15 @@ SPECIAL_NOTIFICATIONS_CONFIG = [
         "route_label": "DEL_to_BLR",
         "origin": "DEL",
         "destination": "BLR",
+        "start_date": "2025-06-09",
+        "end_date": "2025-06-10",
+        "chat_id_override": SECONDARY_TELEGRAM_CHAT_ID,
+        "bot_token_override": SECONDARY_TELEGRAM_BOT_TOKEN
+    },
+    {
+        "route_label": "BLR_to_DEL",
+        "origin": "BLR",
+        "destination": "DEL",
         "start_date": "2025-06-09",
         "end_date": "2025-06-10",
         "chat_id_override": SECONDARY_TELEGRAM_CHAT_ID,
