@@ -123,8 +123,8 @@ def send_telegram_notification_for_new_lowest(
         f"  Airline: {esc_airline}\n  Departure: {esc_dep_time}\n  Arrival: {esc_arr_time}\n"
         f"  Duration: {esc_duration}\n  Stops: {esc_stops}\n\n"
     )
-    if GITHUB_REPO_NAME and GITHUB_REPO_NAME != 'your_username/your_repo':
-         message += f"View summary: https://github.com/{GITHUB_REPO_NAME}\n"
+    # if GITHUB_REPO_NAME and GITHUB_REPO_NAME != 'your_username/your_repo':
+    #      message += f"View summary: https://github.com/{GITHUB_REPO_NAME}\n"
 
     log_subject = f"New Overall Lowest ({origin}->{destination} on {flight_date_str})"
     _send_telegram_message(bot_token_to_use, chat_id_to_use, message, log_subject)
