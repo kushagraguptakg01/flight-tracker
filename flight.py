@@ -54,7 +54,7 @@ SPECIAL_NOTIFICATIONS_CONFIG = [
         "origin": "BLR",
         "destination": "DEL",
         "start_date": "2025-06-09",
-        "end_date": "2025-06-10",
+        "end_date": "2025-06-13",
         "chat_id_override": SECONDARY_TELEGRAM_CHAT_ID,
         "bot_token_override": SECONDARY_TELEGRAM_BOT_TOKEN
     }
@@ -157,8 +157,8 @@ def send_telegram_notification_for_price_drop_since_last_check(
         f"  Airline: {esc_airline}\n  Departure: {esc_dep_time}\n  Arrival: {esc_arr_time}\n"
         f"  Duration: {esc_duration}\n  Stops: {esc_stops}\n"
     )
-    if GITHUB_REPO_NAME and GITHUB_REPO_NAME != 'your_username/your_repo':
-         message += f"View summary: https://github.com/{GITHUB_REPO_NAME}\n"
+    # if GITHUB_REPO_NAME and GITHUB_REPO_NAME != 'your_username/your_repo':
+    #      message += f"View summary: https://github.com/{GITHUB_REPO_NAME}\n"
 
     log_subject = f"Price Drop ({origin}->{destination} on {flight_date_str})"
     _send_telegram_message(bot_token_to_use, chat_id_to_use, message, log_subject)
