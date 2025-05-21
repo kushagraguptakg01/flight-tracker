@@ -41,6 +41,15 @@ SPECIAL_NOTIFICATIONS_CONFIG = [
         "bot_token_override": SECONDARY_TELEGRAM_BOT_TOKEN
     },
     {
+        "route_label": "DEL_to_HYD",
+        "origin": "DEL",
+        "destination": "HYD",
+        "start_date": "2025-05-21",
+        "end_date": "2025-05-23",
+        "chat_id_override": SECONDARY_TELEGRAM_CHAT_ID,
+        "bot_token_override": SECONDARY_TELEGRAM_BOT_TOKEN
+    },
+    {
         "route_label": "DEL_to_BLR",
         "origin": "DEL",
         "destination": "BLR",
