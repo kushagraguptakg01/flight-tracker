@@ -49,10 +49,21 @@ def test_extract_time():
 def test_format_iso_timestamp_to_ist_string():
     assert format_iso_timestamp_to_ist_string(None) == "N/A"
     assert format_iso_timestamp_to_ist_string("") == "N/A"
+    # UTC 'Z' notation
     assert format_iso_timestamp_to_ist_string("2023-10-26T10:00:00Z") == "2023-10-26 15:30:00 IST"
+    # UTC with +00:00 offset
     assert format_iso_timestamp_to_ist_string("2023-10-26T10:00:00+00:00") == "2023-10-26 15:30:00 IST"
+    # Naive datetime string (should be treated as UTC as per function's logic)
+    assert format_iso_timestamp_to_ist_string("2023-01-01T12:00:00") == "2023-01-01 17:30:00 IST"
+    # Timestamp with another offset (-05:00)
+    assert format_iso_timestamp_to_ist_string("2023-01-01T12:00:00-05:00") == "2023-01-01 22:30:00 IST" # 12:00-05:00 is 17:00 UTC, which is 22:30 IST
+    # Date only output
     assert format_iso_timestamp_to_ist_string("2023-10-26T18:30:00Z", include_time=False) == "2023-10-27" 
+    # Invalid timestamp
     assert format_iso_timestamp_to_ist_string("invalid-timestamp") == "N/A"
+    # Timestamp with timezone Z, but include_time=False
+    assert format_iso_timestamp_to_ist_string("2024-01-14T10:00:00Z", include_time=False) == "2024-01-14" # 15:30 IST is still 14th in IST date
+    assert format_iso_timestamp_to_ist_string("2024-01-14T20:00:00Z", include_time=False) == "2024-01-15" # 01:30 IST on 15th
 
 
 # --- Tests for get_lowest_price_and_details_in_period ---

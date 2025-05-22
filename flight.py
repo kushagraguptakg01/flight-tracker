@@ -6,6 +6,7 @@ import time
 import random
 import os
 import requests
+import sys
 
 # --- CONFIGURATION ---
 ROUTES = [
@@ -87,7 +88,14 @@ def _send_telegram_message(bot_token, chat_id, message_text, subject_for_log):
         return True
     except requests.exceptions.RequestException as e:
         print(f"  Error sending Telegram ({subject_for_log}) to chat ID {masked_chat_id_log}: {e}")
-        if hasattr(e, 'response') and e.response is not None: print(f"    TG API Error: {e.response.text}")
+        if hasattr(e, 'response') and e.response is not None:
+            print(f"    TG API Error Status: {e.response.status_code}")
+            try:
+                print(f"    TG API Error Response: {e.response.json()}") # Or e.response.text if JSON parsing fails
+            except ValueError:
+                print(f"    TG API Error Response (not JSON): {e.response.text}")
+        else:
+            print(f"    Error does not have a response object or response is None.")
         return False
     except Exception as e:
         print(f"  Unexpected error sending Telegram ({subject_for_log}) to {masked_chat_id_log}: {e}")
@@ -195,16 +203,36 @@ def fetch_single_date_flights(target_date_obj: DDate, origin: str, dest: str, ad
         valid_flights = []
         if result and result.flights:
             for flight in result.flights:
-                delay_info = getattr(flight, 'delay', None)
-                if isinstance(delay_info, str) and "cancel" in delay_info.lower():
-                    print(f"  -> Discarding cancelled flight: {getattr(flight, 'name', 'Unknown Flight')} on {date_str}")
+                is_cancelled = False
+                cancellation_reason = [] # Store reasons for cancellation
+
+                # Hypothetical check 1: based on a status attribute
+                flight_status = getattr(flight, 'status', None) # or 'state', 'flight_status' etc.
+                if isinstance(flight_status, str) and flight_status.lower() in ['cancelled', 'canceled', 'revoked', 'x', 'cnl']:
+                    is_cancelled = True
+                    cancellation_reason.append(f"status: '{flight_status}'")
+                
+                # Hypothetical check 2: based on a boolean attribute
+                if not is_cancelled and hasattr(flight, 'is_cancelled') and getattr(flight, 'is_cancelled') is True:
+                    is_cancelled = True
+                    cancellation_reason.append("is_cancelled: True")
+
+                # Original check (fallback)
+                delay_info = getattr(flight, 'delay', None) # Get it once
+                if not is_cancelled and isinstance(delay_info, str) and "cancel" in delay_info.lower():
+                    is_cancelled = True
+                    cancellation_reason.append(f"delay_info: '{delay_info}'")
+                
+                if is_cancelled:
+                    reason_str = ", ".join(cancellation_reason)
+                    print(f"  -> Discarding cancelled flight: {getattr(flight, 'name', 'Unknown Flight')} on {date_str} (Reason: {reason_str})")
                     continue
                 valid_flights.append(flight)
         
         if result:
             result.flights = valid_flights
 
-        print(f"  Found {len(result.flights if result else [])} non-cancelled flights. Trend: {result.current_price if result else 'N/A'}")
+        print(f"  Found {len(valid_flights if result else [])} non-cancelled flights. Trend: {result.current_price if result else 'N/A'}")
         return {"result_obj": result, "day_of_week": day_of_week, "error": None}
     except Exception as e:
         error_type = type(e).__name__
@@ -214,17 +242,48 @@ def fetch_single_date_flights(target_date_obj: DDate, origin: str, dest: str, ad
 
 def flight_to_dict(flight_obj):
     if not flight_obj: return None
-    return {
-        "is_best": getattr(flight_obj, 'is_best', None),
-        "name": getattr(flight_obj, 'name', None),
-        "departure": getattr(flight_obj, 'departure', None),
-        "arrival": getattr(flight_obj, 'arrival', None),
-        "arrival_time_ahead": getattr(flight_obj, 'arrival_time_ahead', None),
-        "duration": getattr(flight_obj, 'duration', None),
-        "stops": getattr(flight_obj, 'stops', None),
-        "delay": getattr(flight_obj, 'delay', None),
-        "price": getattr(flight_obj, 'price', None)
+
+    # Helper to try multiple attribute names
+    def get_attr_fallback(obj, primary_name, secondary_name=None):
+        val = getattr(obj, primary_name, None)
+        if val is None and secondary_name:
+            val = getattr(obj, secondary_name, None)
+        return val
+
+    details = {
+        "is_best": get_attr_fallback(flight_obj, 'is_best'),
+        "name": get_attr_fallback(flight_obj, 'name', 'airline_name'), # Try 'name', then 'airline_name'
+        "departure": get_attr_fallback(flight_obj, 'departure', 'dep_time'),
+        "arrival": get_attr_fallback(flight_obj, 'arrival', 'arr_time'),
+        "arrival_time_ahead": get_attr_fallback(flight_obj, 'arrival_time_ahead'), # Assuming this one is usually consistent
+        "duration": get_attr_fallback(flight_obj, 'duration', 'total_duration'),
+        "stops": get_attr_fallback(flight_obj, 'stops', 'num_stops'),
+        "delay": get_attr_fallback(flight_obj, 'delay'), # Assuming this one is usually consistent
+        "price": get_attr_fallback(flight_obj, 'price') # Assuming this one is usually consistent
     }
+
+    # Convert stops to int if it's a string digit, otherwise keep as is (could be None or text like 'Non-stop')
+    if isinstance(details["stops"], str) and details["stops"].isdigit():
+        details["stops"] = int(details["stops"])
+    elif details["stops"] is None and get_attr_fallback(flight_obj, 'stop_count') is not None: # Third fallback for stops
+        stop_count_val = get_attr_fallback(flight_obj, 'stop_count')
+        if isinstance(stop_count_val, str) and stop_count_val.isdigit():
+             details["stops"] = int(stop_count_val)
+        elif isinstance(stop_count_val, int): # If it's already an int
+            details["stops"] = stop_count_val
+        # If it's "Non-stop" or other text, it might remain None or its text value if primary/secondary picked it up.
+        # This part specifically handles stop_count if primary/secondary 'stops'/'num_stops' were None.
+
+
+    # Current diagnostic logging (keep it for now, might be removed in a later step)
+    essential_keys = ["name", "departure", "arrival", "duration", "stops"]
+    missing_essentials = [key for key in essential_keys if details[key] is None]
+    if missing_essentials:
+        original_price_str = details.get('price', 'N/A')
+        flight_name_for_log = details.get('name', 'Unknown Airline') # Use the potentially resolved name
+        print(f"  DEBUG flight_to_dict: Flight '{flight_name_for_log}' (Price: {original_price_str}) is missing essential details: {missing_essentials}. Flight object type: {type(flight_obj)}")
+            
+    return details
 
 def convert_price_str_to_numeric(price_str):
     if not price_str: return None
@@ -232,7 +291,9 @@ def convert_price_str_to_numeric(price_str):
         cleaned = ''.join(filter(str.isdigit, price_str.replace('₹', '').replace(',', '').split('.')[0]))
         if cleaned:
             price = float(cleaned)
-            if price == 0.0: return None
+            if price == 0.0:
+                print(f"Warning: Price string '{price_str}' resulted in 0.0, treating as no valid price.")
+                return None
             return price
     except: pass
     return None
@@ -244,6 +305,7 @@ def get_cheapest_flight_from_result(result_obj: Result):
         num_price = convert_price_str_to_numeric(getattr(flight, 'price', None))
         if num_price is not None and num_price < min_price:
             min_price, cheapest_obj = num_price, flight
+    
     return (cheapest_obj, min_price) if cheapest_obj and min_price != float('inf') else (None, None)
 
 def get_special_notification_params(route_label_current, flight_date_str_current):
@@ -265,7 +327,7 @@ def get_special_notification_params(route_label_current, flight_date_str_current
                     if token_override and chat_override:
                         return token_override, chat_override
                     else:
-                        print(f"Warning: Special config for {route_label_current} on {flight_date_str_current} matched, but bot_token_override or chat_id_override is missing/empty. Defaulting.")
+                        print(f"Warning: Incomplete special notification setup for route '{route_label_current}' on {flight_date_str_current}. Bot token or chat ID (or both) is missing in SPECIAL_NOTIFICATIONS_CONFIG. Notifications for this specific date/route will use default Telegram settings if available. Please check your environment variables or SPECIAL_NOTIFICATIONS_CONFIG entry.")
                         return None, None # Fallback to default if specific overrides are not fully set
             except ValueError:
                 print(f"Warning: Invalid date format in SPECIAL_NOTIFICATIONS_CONFIG for route {route_label_current} ('{config['start_date']}' or '{config['end_date']}'). Skipping this config entry.")
@@ -429,8 +491,10 @@ if __name__ == "__main__":
     if max_special_date:
         days_needed = (max_special_date - today).days + 1 # +1 to include the end date
         if DAYS_INTO_FUTURE < days_needed:
-            print(f"Warning: DAYS_INTO_FUTURE is set to {DAYS_INTO_FUTURE}, but special notifications are configured up to {max_special_date} (requires at least {days_needed} days).")
-            print("Consider increasing DAYS_INTO_FUTURE to cover all special notification dates.")
+            print(f"ERROR: DAYS_INTO_FUTURE ({DAYS_INTO_FUTURE}) is insufficient for special notifications up to {max_special_date} (requires {days_needed} days).")
+            print("Please increase DAYS_INTO_FUTURE in the script's configuration or adjust your SPECIAL_NOTIFICATIONS_CONFIG.")
+            print("Exiting script to prevent missing special notifications.")
+            sys.exit(1) # Exit the script
 
     run_all_routes_job()
     print("Script execution finished.")

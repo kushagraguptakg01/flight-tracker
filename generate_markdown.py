@@ -36,13 +36,24 @@ def format_iso_timestamp_to_ist_string(iso_timestamp_str, include_time=True):
     if not iso_timestamp_str:
         return "N/A"
     try:
+        # Parse the ISO timestamp string. 
+        # .replace('Z', '+00:00') handles UTC 'Z' notation correctly, making it offset-aware.
         dt_obj = datetime.fromisoformat(iso_timestamp_str.replace('Z', '+00:00'))
+
+        # Check if the datetime object is naive (no timezone info) or aware.
         if dt_obj.tzinfo is None or dt_obj.tzinfo.utcoffset(dt_obj) is None:
+            # If naive, assume it's UTC and make it UTC-aware.
+            # This is based on the expectation that timestamps from flight.py are UTC.
             dt_utc = pytz.utc.localize(dt_obj)
         else:
+            # If aware (e.g., already UTC or with another offset), convert it to UTC to normalize.
             dt_utc = dt_obj.astimezone(pytz.utc)
+        
+        # Define the IST timezone.
         ist_timezone = pytz.timezone('Asia/Kolkata')
+        # Convert the UTC datetime to IST.
         dt_ist = dt_utc.astimezone(ist_timezone)
+        
         if include_time:
             return dt_ist.strftime('%Y-%m-%d %H:%M:%S IST')
         else:
@@ -64,15 +75,27 @@ def get_lowest_price_and_details_in_period(observations_history, period_days, to
         if not check_timestamp_str:
             continue
         try:
-            # Ensure timestamp is timezone-aware (UTC)
-            obs_datetime_utc = datetime.fromisoformat(check_timestamp_str.replace('Z', '+00:00'))
-            if obs_datetime_utc.tzinfo is None or obs_datetime_utc.tzinfo.utcoffset(obs_datetime_utc) is None:
-                obs_datetime_utc = pytz.utc.localize(obs_datetime_utc)
+            # Parse the ISO timestamp string from the observation.
+            # .replace('Z', '+00:00') ensures UTC 'Z' notation is handled, making it offset-aware.
+            obs_datetime_aware = datetime.fromisoformat(check_timestamp_str.replace('Z', '+00:00'))
+
+            # Ensure the timestamp is in UTC.
+            # If it's naive (no timezone info), assume it's UTC and make it aware.
+            if obs_datetime_aware.tzinfo is None or obs_datetime_aware.tzinfo.utcoffset(obs_datetime_aware) is None:
+                obs_datetime_utc = pytz.utc.localize(obs_datetime_aware)
+            # If it's already aware (e.g., from 'Z' or another offset), normalize to UTC.
             else:
-                obs_datetime_utc = obs_datetime_utc.astimezone(pytz.utc)
+                obs_datetime_utc = obs_datetime_aware.astimezone(pytz.utc)
             
+            # Extract the calendar date part (year, month, day) from the UTC timestamp.
+            # Note: .date() on an aware datetime returns a naive date, but representing the date in that timezone (here, UTC).
             obs_date_utc = obs_datetime_utc.date()
 
+            # Compare the UTC date of the observation with the period defined by local dates (today_date, cutoff_date).
+            # `today_date` is date.today() (local machine's date).
+            # `cutoff_date` is derived from `today_date`.
+            # This comparison means we are checking if the *UTC calendar date* of the observation
+            # falls within the *local calendar date* range. This is generally acceptable for daily granularity.
             if obs_date_utc >= cutoff_date and obs_date_utc <= today_date:
                 cheapest_flight_in_check = obs.get("cheapest_flight_found")
                 if cheapest_flight_in_check:
@@ -139,12 +162,11 @@ def generate_route_markdown(json_filepath, today_date):
                 flight_desc = f"<span style='color:orange;'>{error_msg_overall}</span>"
             elif flight_info_overall:
                 airline = flight_info_overall.get("name", "N/A")
-                # CORRECTED KEYS:
                 dep = extract_time(flight_info_overall.get("departure", "N/A"))
                 arr = extract_time(flight_info_overall.get("arrival", "N/A"))
-                arr_ahead = flight_info_overall.get("arrival_time_ahead", "") # This key was correct
+                arr_ahead = flight_info_overall.get("arrival_time_ahead", "")
                 flight_desc = f"{dep} → {arr}{arr_ahead if arr_ahead else ''}"
-                duration = flight_info_overall.get("duration", "N/A") # CORRECTED KEY
+                duration = flight_info_overall.get("duration", "N/A")
                 stops_val = str(flight_info_overall.get("stops", "N/A"))
             elif overall_lowest_price is not None: # Has a price, but no details (should be rare)
                 flight_desc = "_Details unavailable_"
@@ -205,12 +227,11 @@ def generate_route_markdown(json_filepath, today_date):
 
                     if flight_info_hist:
                         airline_hist = flight_info_hist.get("name", "N/A")
-                        # CORRECTED KEYS:
                         dep_hist = extract_time(flight_info_hist.get("departure", "N/A"))
                         arr_hist = extract_time(flight_info_hist.get("arrival", "N/A"))
-                        arr_ahead_hist = flight_info_hist.get("arrival_time_ahead", "") # This key was correct
+                        arr_ahead_hist = flight_info_hist.get("arrival_time_ahead", "")
                         flight_desc_hist = f"{dep_hist} → {arr_hist}{arr_ahead_hist if arr_ahead_hist else ''}"
-                        duration_hist = flight_info_hist.get("duration", "N/A") # CORRECTED KEY
+                        duration_hist = flight_info_hist.get("duration", "N/A")
                         stops_val_hist = str(flight_info_hist.get("stops", "N/A"))
                     else: 
                         flight_desc_hist = "_Details N/A_"
